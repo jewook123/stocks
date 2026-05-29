@@ -31,15 +31,31 @@ ESS_TICKERS = [
     ("ARRY", "Array Technologies"),
 ]
 
-TOKEN = open("/home/claude/.claude/remote/.session_ingress_token").read().strip()
 API_URL = "https://api.anthropic.com/v1/messages"
 
-HEADERS = {
-    "content-type": "application/json",
-    "anthropic-version": "2023-06-01",
-    "anthropic-beta": "web-search-2025-03-05",
-    "Authorization": f"Bearer {TOKEN}",
-}
+
+def _build_headers() -> dict:
+    """ANTHROPIC_API_KEY 환경변수 또는 Claude Code 세션 토큰으로 헤더를 구성합니다."""
+    base = {
+        "content-type": "application/json",
+        "anthropic-version": "2023-06-01",
+        "anthropic-beta": "web-search-2025-03-05",
+    }
+    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if api_key:
+        base["x-api-key"] = api_key
+        return base
+    token_file = "/home/claude/.claude/remote/.session_ingress_token"
+    if os.path.exists(token_file):
+        base["Authorization"] = f"Bearer {open(token_file).read().strip()}"
+        return base
+    raise EnvironmentError(
+        "Anthropic 인증 정보를 찾을 수 없습니다. "
+        "ANTHROPIC_API_KEY 환경변수를 설정하거나 Claude Code 환경에서 실행하세요."
+    )
+
+
+HEADERS = _build_headers()
 
 SEARCH_TOOL = [{
     "type": "web_search_20250305",
@@ -374,14 +390,14 @@ def subsection(title):
 
 
 # ── 메인 ──────────────────────────────────────────────────────────────────────
-def main():
+def main() -> dict:
     now = datetime.now().strftime("%Y년 %m월 %d일 %H:%M")
     sep("█")
     print(f"  FLNC (Fluence Energy) 종합 주식 분석 리포트")
     print(f"  분석 일시: {now}")
     sep("█")
 
-    results = {}
+    results = {"generated_at": now}
 
     # ── 섹션 1: 뉴스 감성 분석 ────────────────────────────────────────────────
     section(f"1. 구글/야후 뉴스 감성 분석 — 최근 {DAYS_BACK}일")
@@ -549,7 +565,8 @@ def main():
         print(f"  FLNC 투자 포인트:\n  {sentiment['investor_summary']}\n")
 
     # JSON 저장
-    output_path = f"/home/user/stocks/flnc_report_{datetime.now().strftime('%Y%m%d_%H%M')}.json"
+    ts = datetime.now().strftime("%Y%m%d_%H%M")
+    output_path = os.path.join(os.path.dirname(__file__) or ".", f"flnc_report_{ts}.json")
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(
             {"generated_at": now, **results},
@@ -564,6 +581,150 @@ def main():
     sep("█")
     print()
 
+    return results
+
+
+# ── Telegram 전송 ──────────────────────────────────────────────────────────────
+def _tg_escape(text: str) -> str:
+    """MarkdownV2 특수문자 이스케이프."""
+    for ch in r"\_*[]()~`>#+-=|{}.!":
+        text = text.replace(ch, f"\\{ch}")
+    return text
+
+
+def send_telegram(results: dict):
+    """분석 결과를 Telegram 봇으로 전송합니다."""
+    bot_token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
+    if not bot_token or not chat_id:
+        print("  [Telegram] TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID 미설정, 전송 생략")
+        return
+
+    tg_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+
+    def send(text: str):
+        for attempt in range(3):
+            r = requests.post(
+                tg_url,
+                json={"chat_id": chat_id, "text": text, "parse_mode": "HTML"},
+                timeout=15,
+            )
+            if r.status_code == 200:
+                return
+            time.sleep(2 * (attempt + 1))
+        print(f"  [Telegram] 전송 실패: {r.status_code} {r.text[:100]}")
+
+    sentiment = results.get("sentiment", {})
+    filings_data = results.get("filings", {})
+    ess_data = results.get("ess", {})
+
+    score = sentiment.get("sentiment_score", 0)
+    overall = sentiment.get("overall_sentiment", "N/A")
+    pi = sentiment.get("price_info", {})
+    price_str = pi.get("current_price", "N/A")
+    price_chg = pi.get("price_change_pct", "")
+
+    sentiment_emoji = "🟢" if score >= 3 else "🔴" if score <= -3 else "🟡"
+    now_str = results.get("generated_at", datetime.now().strftime("%Y-%m-%d %H:%M"))
+
+    # ── 메시지 1: 헤더 + 감성 요약 ──────────────────────────────────────────
+    pos = sentiment.get("positive_count", 0)
+    neg = sentiment.get("negative_count", 0)
+    neu = sentiment.get("neutral_count", 0)
+
+    catalysts = "\n".join(f"  ✅ {c}" for c in sentiment.get("catalysts", [])[:3])
+    risks = "\n".join(f"  ⚠️ {r}" for r in sentiment.get("risk_factors", [])[:3])
+    investor_summary = sentiment.get("investor_summary", "")[:400]
+
+    msg1 = (
+        f"📊 <b>FLNC (Fluence Energy) 주식 분석</b>\n"
+        f"🗓 {now_str}\n"
+        f"{'─'*30}\n\n"
+        f"💹 <b>현재가:</b> {price_str}  {price_chg}\n"
+        f"{sentiment_emoji} <b>감성:</b> {overall}  ({score:+d}/10)\n"
+        f"📰 뉴스: 긍정 {pos}건 | 부정 {neg}건 | 중립 {neu}건\n\n"
+        f"<b>🚀 상승 촉매</b>\n{catalysts}\n\n"
+        f"<b>⚠️ 리스크</b>\n{risks}\n\n"
+        f"<b>💬 투자 포인트</b>\n{investor_summary}"
+    )
+    send(msg1)
+    time.sleep(0.5)
+
+    # ── 메시지 2: 주요 뉴스 ──────────────────────────────────────────────────
+    news_items = sentiment.get("news_items", [])
+    if news_items:
+        lines = ["📰 <b>주요 뉴스 (최근 3일)</b>\n"]
+        for n in news_items[:8]:
+            tag = {"positive": "✅", "negative": "❌", "neutral": "─"}.get(
+                n.get("sentiment", ""), "•"
+            )
+            title = n.get("title", "")[:70]
+            date = n.get("date", "")[:10]
+            src = n.get("source", "")
+            url = n.get("url", "")
+            link = f'<a href="{url}">{src}</a>' if url else src
+            lines.append(f"{tag} [{date}] {title}\n     {link}")
+        send("\n".join(lines))
+        time.sleep(0.5)
+
+    # ── 메시지 3: SEC 공시 ────────────────────────────────────────────────────
+    total_filings = filings_data.get("total_count", 0)
+    filings = filings_data.get("filings", [])
+    if total_filings or filings:
+        lines = [f"📋 <b>SEC 공시 ({total_filings}건)</b>\n"]
+        for f in filings[:6]:
+            sig = {"high": "🔴", "medium": "🟡", "low": "🟢"}.get(
+                f.get("significance", "low"), "⚪"
+            )
+            form = f.get("form_type", "")
+            date = f.get("date", "")
+            desc = f.get("description", "")[:60]
+            url = f.get("url", "")
+            link = f'  <a href="{url}">🔗 상세보기</a>' if url else ""
+            lines.append(f"{sig} <b>{form}</b>  {date}\n  {desc}{link}")
+        notable = filings_data.get("notable_events", [])
+        if notable:
+            lines.append("\n<b>📌 주목 이벤트</b>")
+            for e in notable[:3]:
+                lines.append(f"  • {e}")
+        send("\n".join(lines))
+        time.sleep(0.5)
+
+    # ── 메시지 4: ESS 관련주 동향 ────────────────────────────────────────────
+    stocks = ess_data.get("stocks", [])
+    sector_trend = ess_data.get("sector_trend", "N/A")
+    if stocks:
+        trend_emoji = {
+            "상승세": "📈", "하락세": "📉", "혼조세": "📊", "횡보": "➡️"
+        }.get(sector_trend, "📊")
+
+        lines = [f"{trend_emoji} <b>ESS 관련주 동향 — {sector_trend}</b>\n"]
+        lines.append(f"{'티커':<6} {'현재가':>8} {'1일':>7} {'1개월':>8}  동향")
+        lines.append("─" * 40)
+        for s in stocks:
+            trend_icon = {
+                "강한상승": "▲▲", "상승": "▲ ", "횡보": "─ ",
+                "하락": "▼ ", "강한하락": "▼▼",
+            }.get(s.get("trend", ""), "?")
+            star = "⭐" if s.get("ticker") == "FLNC" else "  "
+            lines.append(
+                f"{star}{s.get('ticker',''):<5} {s.get('current_price',''):>8} "
+                f"{s.get('change_1d',''):>7} {s.get('change_1m',''):>8}  {trend_icon}"
+            )
+
+        outlook = ess_data.get("investment_outlook", "")[:300]
+        if outlook:
+            lines.append(f"\n<b>💡 투자 전망</b>\n{outlook}")
+
+        send("<pre>" + "\n".join(lines) + "</pre>")
+
+    print("  [Telegram] 전송 완료")
+
 
 if __name__ == "__main__":
-    main()
+    import sys
+    send_to_telegram = "--telegram" in sys.argv
+    results = main()
+    if send_to_telegram and results:
+        print("\n  Telegram 전송 중...")
+        send_telegram(results)
