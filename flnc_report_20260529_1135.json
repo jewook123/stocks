@@ -1,0 +1,670 @@
+{
+  "generated_at": "2026년 05월 29일 11:27",
+  "sentiment": {
+    "news_items": [
+      {
+        "date": "2026-05-29",
+        "title": "Why Fluence Energy Stock Is Sinking Again",
+        "source": "TipRanks",
+        "url": "https://www.tipranks.com/news/catalyst/why-fluence-energy-stock-is-sinking-again",
+        "sentiment": "negative",
+        "summary": "대규모 2차 공모(주당 $21)로 인한 유통 주식 공급 과잉이 주가에 하방 압력을 가하고 있으며, 하이퍼스케일러 계약 호재가 이 매도세에 가려지고 있음"
+      },
+      {
+        "date": "2026-05-27",
+        "title": "Fluence Energy: The Unpriced AI Power Moat Awaiting Liftoff (NASDAQ:FLNC)",
+        "source": "Seeking Alpha",
+        "url": "https://seekingalpha.com/article/4909120-fluence-energy-stock-the-unpriced-ai-power-moat-awaiting-liftoff",
+        "sentiment": "positive",
+        "summary": "AI 인프라 리더로의 진화, 독점적 전력 조절 기술, 하이퍼스케일러 계약, $57M 관세 환급, 12GW 데이터센터 파이프라인 등을 근거로 Strong Buy 의견 제시"
+      },
+      {
+        "date": "2026-05-26",
+        "title": "Fluence Energy Completes US$420 Million Secondary Offering – Has The Bull Case Changed?",
+        "source": "Simply Wall St",
+        "url": "https://simplywall.st/stocks/us/capital-goods/nasdaq-flnc/fluence-energy/news/fluence-energy-flnc-is-up-100-after-420-million-follow-on-eq",
+        "sentiment": "neutral",
+        "summary": "AES Grid Stability LLC 등 기존 주주들이 주당 $21에 2,000만 주를 매각하는 $4.2억 규모의 2차 공모 완료; 회사는 공모 수익을 받지 못하며 불 케이스 영향 분석"
+      },
+      {
+        "date": "2026-05-22",
+        "title": "Fluence Energy Call Volume Above Normal and Directionally Bullish",
+        "source": "TipRanks / CNN",
+        "url": "https://www.cnn.com/markets/stocks/FLNC",
+        "sentiment": "positive",
+        "summary": "옵션 콜 거래량이 평균 이상으로 증가하며 시장이 단기 강세 방향성을 보이고 있음"
+      },
+      {
+        "date": "2026-05-22",
+        "title": "Fluence Energy (FLNC) Receives a Hold from Guggenheim",
+        "source": "TipRanks",
+        "url": "https://www.cnn.com/markets/stocks/FLNC",
+        "sentiment": "neutral",
+        "summary": "Guggenheim이 FLNC에 대해 Hold 등급을 유지; 애널리스트 컨센서스는 16명 중 Hold 의견 우세"
+      },
+      {
+        "date": "2026-05-19",
+        "title": "FLNC Stock Slumps As Secondary Offerings Flood The Market",
+        "source": "StocksToTrade",
+        "url": "https://stockstotrade.com/news/fluence-energy-inc-flnc-news-2026_05_19/",
+        "sentiment": "negative",
+        "summary": "2차 공모 물량 부담과 117.67M주 추가 등록으로 주가 -7.22% 하락; UBS는 Sell 유지($9 목표), HSBC는 Reduce에서 Hold로 상향"
+      },
+      {
+        "date": "2026-05-15",
+        "title": "Qatar Investment Authority Sells $60.2M Fluence Energy Stock",
+        "source": "Investing.com",
+        "url": "https://www.investing.com/news/insider-trading-news/qatar-investment-authority-sells-602m-fluence-energy-stock-93CH-4696178",
+        "sentiment": "negative",
+        "summary": "카타르 투자청(QIA)이 주당 $21에 약 286만 7천 주($6,020만)를 처분하며 대형 주주 이탈 신호 우려"
+      },
+      {
+        "date": "2026-05-13",
+        "title": "Fluence Energy Price Target Raised to $26 from $15 at Citi",
+        "source": "TipRanks / Citigroup",
+        "url": "https://www.cnn.com/markets/stocks/FLNC",
+        "sentiment": "positive",
+        "summary": "Citi가 FLNC 목표주가를 $15에서 $26으로 대폭 상향 조정하며 Neutral 등급 유지"
+      },
+      {
+        "date": "2026-05-06",
+        "title": "Fluence Energy Reports Q2 2026 Results; Reaffirms FY2026 Guidance",
+        "source": "Fluence Energy IR / Investing.com",
+        "url": "https://ir.fluenceenergy.com/news-releases/news-release-details/fluence-energy-inc-reports-second-quarter-2026-results-reaffirms",
+        "sentiment": "neutral",
+        "summary": "Q2 매출 $465M(YoY +8%)으로 예상 대비 약 26% 미달했으나 EPS는 -$0.16으로 예상 -$0.18 소폭 상회; FY2026 가이던스($3.2B~$3.6B) 재확인, 어닝 후 주가 +49% 급등"
+      },
+      {
+        "date": "2026-05-07",
+        "title": "FLNC Jumps On Guidance Reaffirmation Despite Earnings Miss",
+        "source": "StocksToTrade",
+        "url": "https://stockstotrade.com/news/fluence-energy-inc-flnc-news-2026_05_07/",
+        "sentiment": "positive",
+        "summary": "FY2026 가이던스 재확인 및 $5.6B 역대 최고 수주잔고, 2대 하이퍼스케일러와의 MSA 체결 발표 후 주가 하루 만에 27% 이상 급등"
+      }
+    ],
+    "overall_sentiment": "Neutral",
+    "sentiment_score": 1,
+    "positive_count": 4,
+    "negative_count": 3,
+    "neutral_count": 3,
+    "key_themes": [
+      "AI 데이터센터 수요 및 하이퍼스케일러 MSA 체결 (12GW 파이프라인)",
+      "대규모 2차 공모에 따른 주식 공급 과잉 및 주가 하방 압력",
+      "Q2 2026 어닝: EPS 소폭 상회 vs 매출 26% 미달 / FY2026 가이던스 재확인",
+      "기존 대주주(AES, QIA 등) 지분 매각 및 플로트 확대",
+      "애널리스트 의견 분화: Strong Buy(Seeking Alpha) vs Hold 컨센서스 vs UBS Sell"
+    ],
+    "catalysts": [
+      "2대 하이퍼스케일러와 마스터 공급 계약(MSA) 체결 및 12GW 데이터센터 파이프라인 확보",
+      "수주 잔고 역대 최고치 $5.6B 달성 및 YTD 수주액 전년 대비 2배 증가($2.0B)",
+      "$57M IEEPA 관세 환급 기대 및 미국 내 공급망 경쟁력 강화",
+      "H2 FY2026 매출 급증 전망 (~$2.5B) 및 FCF 흑자 전환 기대",
+      "Citi 목표주가 $15 → $26 대폭 상향 등 일부 애널리스트 긍정적 재평가"
+    ],
+    "risk_factors": [
+      "기존 대주주(AES Grid Stability, QIA 등)의 대규모 지분 매각 및 117.67M주 추가 등록으로 주식 공급 과잉 지속",
+      "Q2 매출 예상 대비 26% 미달 및 여전히 적자 구조(순손실 $29.2M, FCF -$128M)",
+      "UBS Sell 등급 유지(목표 $9), 애널리스트 평균 목표가 $17.75로 현재가 대비 하방",
+      "박한 영업이익률(총마진 ~11%), 중국산 배터리 공급 확대에 따른 가격 경쟁 심화",
+      "고밸류에이션(P/B ~7.7배) 대비 수익성 미달 리스크 및 실행 리스크"
+    ],
+    "investor_summary": "FLNC는 최근 하이퍼스케일러 MSA 체결, 역대 최고 수주잔고, FY2026 가이던스 재확인 등 강력한 성장 스토리를 보유하고 있으나, 대주주들의 대규모 지분 매각(총 $4.2억+)과 117M주 추가 등록으로 인한 공급 과잉이 단기 주가 상방을 제한하고 있습니다. 애널리스트 컨센서스는 Hold(평균 목표가 $17.75)로 현재가 대비 하방을 시사하나, AI 인프라 수요 성장과 H2 매출 가속화 기대로 강세론자들은 중장기 매수 기회로 평가합니다. 단기적으로는 주식 공급 압력 해소 및 Q3 실적을 통한 매출 회복 증명 여부가 핵심 모멘텀 변수입니다.",
+    "price_info": {
+      "current_price": "$20.88 (2026-05-28 기준)",
+      "price_change": "-$0.45 (전일 대비, 5/29 장중)",
+      "price_change_pct": "-0.38% ~ -2.1% (장중 변동)"
+    }
+  },
+  "filings": {
+    "filings": [
+      {
+        "form_type": "10-Q",
+        "date": "2026-05-06",
+        "description": "FY2026 2분기(2026년 3월 31일 종료) 분기 보고서. 매출 약 $464.9M(전년 동기 대비 +7.7%), GAAP 순손실 약 $29.2M(전년 $41.9M 대비 개선), 수주잔고 사상 최고치 $5.6B 달성. 현금 및 현금성 자산 $412.9M, 상반기 누적 수주액 약 $2.0B(전년 대비 2배).",
+        "url": "https://www.sec.gov/Archives/edgar/data/0001868941/000110465926056304/flnc-20260331x10q.htm",
+        "significance": "high",
+        "notes": "수주잔고 사상 최고 $5.6B 기록 및 FY2026 가이던스($3.2~$3.6B 매출) 재확인. 수익성 개선 추세 확인. 반면 여전히 적자 지속 중으로 손익분기점 도달 시점 주목 필요."
+      },
+      {
+        "form_type": "8-K",
+        "date": "2026-05-13",
+        "description": "기존 지배주주(Siemens, AES, QIA 등)에 의한 Class A 보통주 2,000만 주 2차 공모 가격 결정 공시. 주당 $21.00에 총 117,666,665주 규모 등록(S-3ASR 및 424B7 포함).",
+        "url": "https://www.sec.gov/Archives/edgar/data/0001868941/000110465926059052/tm2613150-1_s3asr.htm",
+        "significance": "high",
+        "notes": "기존 대주주들의 대규모 주식 매도 공시. 지배주주 지분 축소 가능성 및 유통 물량 증가에 따른 주가 희석 우려. QIA, Siemens 등 매도 규모 및 잔여 지분 변화 모니터링 필요."
+      },
+      {
+        "form_type": "8-K",
+        "date": "2026-05-12",
+        "description": "기존 지배주주에 의한 Class A 보통주 2차 공모 개시 발표. Barclays, Goldman Sachs, J.P. Morgan을 주간사로 하는 언더라이팅 계약 체결.",
+        "url": "https://www.stocktitan.net/sec-filings/FLNC/8-k-fluence-energy-inc-reports-material-event-f063cb7f08e4.html",
+        "significance": "high",
+        "notes": "주간사로 Barclays, Goldman Sachs, JPMorgan 참여. 대규모 2차 공모에 따른 수급 영향 및 주가 변동성 확대 가능성 주의."
+      },
+      {
+        "form_type": "S-3ASR",
+        "date": "2026-05-12",
+        "description": "자동 유효 등록 신고서(S-3ASR). 2026년 5월 1일 기준 Class A 보통주 132,811,490주 및 Class B-1 보통주 51,499,195주 기준으로 총 117,666,665주 등록.",
+        "url": "https://www.sec.gov/Archives/edgar/data/0001868941/000110465926059052/tm2613150-1_s3asr.htm",
+        "significance": "medium",
+        "notes": "LLC Interests 전환 포함 대규모 지분 매각 등록. 유통 주식수 증가로 인한 EPS 희석 효과 분석 필요."
+      },
+      {
+        "form_type": "SCHEDULE 13G/A",
+        "date": "2026-05-13",
+        "description": "Qatar Investment Authority(QIA)의 지분 공시 수정. Class A 보통주 11,801,103주(8.3%) 직접 보유 신고. Stockholder Agreement에 따른 그룹 보유 지분은 97,666,665주(53.0%).",
+        "url": "https://www.stocktitan.net/sec-filings/FLNC/schedule-13g-a-fluence-energy-inc-amended-passive-investment-disclosu-f0e813706981.html",
+        "significance": "medium",
+        "notes": "QIA가 Siemens, AES와 함께 주주 협약(Stockholder Agreement)을 통해 공동으로 53%의 지배력 유지. 대주주 지분 구조 변화 모니터링 필요."
+      },
+      {
+        "form_type": "SCHEDULE 13G/A",
+        "date": "2026-02-09",
+        "description": "Siemens 계열사의 지분 공시 수정. 2025년 12월 31일 기준 Class A 보통주 51,499,195주(38.9%) 보유. Siemens AG 직접 보유 19,738,064주, SPT Holding Sarl 보유 31,761,131주.",
+        "url": "https://www.stocktitan.net/sec-filings/FLNC/schedule-13g-a-fluence-energy-inc-amended-passive-investment-disclosu-b64298ad8c71.html",
+        "significance": "medium",
+        "notes": "SPT Invest Management Sarl 지분 완전 정리 및 SPT Holding Sarl로 이전. Siemens 그룹 내 지분 구조 재편 신호. Siemens의 장기 보유 의지 확인 필요."
+      },
+      {
+        "form_type": "8-K",
+        "date": "2026-05-06",
+        "description": "FY2026 2분기 실적 발표 (2026년 3월 31일 종료 분기). 매출 $464.9M(+7.7% YoY), GAAP 총이익률 10.0%, Adjusted EBITDA 약 -$9.4M(전년 -$30.4M 대비 대폭 개선), FY2026 전체 가이던스 재확인.",
+        "url": "https://www.sec.gov/Archives/edgar/data/0001868941/000186894126000014/flncq2fy26earningspressrel.htm",
+        "significance": "high",
+        "notes": "FY2026 매출 가이던스 $3.2~$3.6B 및 Adjusted EBITDA $40~$60M 재확인. 연말 연간반복매출(ARR) $180M 목표 유지. 수익성 개선 모멘텀 지속 여부가 핵심 투자 포인트."
+      },
+      {
+        "form_type": "8-K/A",
+        "date": "2026-04-06",
+        "description": "신디케이트 대출 계약 4차 수정 관련 8-K 수정 공시. Credit Agreement의 Trigger Date를 2025년 12월 31일에서 2026년 12월 31일로 연장, 최소 유동성 커버넌트 $150M 유지.",
+        "url": "https://www.stocktitan.net/sec-filings/FLNC/",
+        "significance": "medium",
+        "notes": "레버리지 비율 테스트(3.50:1.00) 시작 시점을 2027년 1월 1일로 연기. $450M 초과 시 $50M 현금 담보 요구 조항 신설. 유동성 관리 및 재무 커버넌트 준수 여부 지속 모니터링 필요."
+      },
+      {
+        "form_type": "8-K",
+        "date": "2026-04-20",
+        "description": "FY2026 2분기 실적 발표 일정 및 컨퍼런스 콜/웨비나 사전 공지.",
+        "url": "https://www.stocktitan.net/sec-filings/FLNC/",
+        "significance": "low",
+        "notes": "정기적인 IR 공지 공시. 투자자 참여 가능한 실적 발표 일정 안내."
+      },
+      {
+        "form_type": "8-K",
+        "date": "2026-04-06",
+        "description": "미국 내 제품 공급 가용성 재확인 발표. 관세 및 무역 불확실성 환경에서도 미국 내 에너지 저장 제품 공급 지속 가능 입장 표명.",
+        "url": "https://www.stocktitan.net/sec-filings/FLNC/",
+        "significance": "medium",
+        "notes": "미중 무역 갈등 및 관세 이슈 속 공급망 리스크에 대한 회사의 공식 입장. 미국 내 프로젝트 수주 및 납품 일정에 영향 가능. 공급망 다변화 전략 주목."
+      },
+      {
+        "form_type": "DEF 14A",
+        "date": "2026-01-26",
+        "description": "주주총회 의결권 위임장 공시(확정본). 이사회 구성, 임원 보수, 감사인 승인 등 안건 포함.",
+        "url": "https://www.stocktitan.net/sec-filings/FLNC/",
+        "significance": "low",
+        "notes": "신임 이사 Al-Darwish Fahad Abdulla MM(Form 3 동반 제출) 선임 관련 내용 포함. QIA 연계 이사 선임 여부 확인 필요."
+      },
+      {
+        "form_type": "8-K",
+        "date": "2026-02-04",
+        "description": "FY2026 1분기 실적 발표 (2025년 12월 31일 종료 분기). 매출 $475.2M(+154.4% YoY), GAAP 총이익률 4.9%, Adjusted 총이익률 5.6%. FY2026 가이던스 재확인.",
+        "url": "https://www.sec.gov/Archives/edgar/data/0001868941/000186894126000004/flnc-20260204.htm",
+        "significance": "high",
+        "notes": "전년 동기 대비 매출 154% 급증으로 강한 성장세 확인. 다만 총이익률 4.9%로 낮은 수준. 2분기 마진 10.0%로 개선 확인됨. Q1 저마진은 프로젝트 믹스 효과로 분석됨."
+      },
+      {
+        "form_type": "ARS",
+        "date": "2026-01-26",
+        "description": "연간 주주 보고서(Annual Report to Shareholders) 제출.",
+        "url": "https://www.stocktitan.net/sec-filings/FLNC/",
+        "significance": "low",
+        "notes": "FY2025 연간 실적 및 사업 현황 요약 자료. 10-K와 함께 참고 권장."
+      }
+    ],
+    "total_count": 13,
+    "summary": "SEC EDGAR 조회 완료",
+    "_raw": "{\n  \"filings\": [\n    {\n      \"form_type\": \"10-Q\",\n      \"date\": \"2026-05-06\",\n      \"description\": \"FY2026 2분기(2026년 3월 31일 종료) 분기 보고서. 매출 약 $464.9M(전년 동기 대비 +7.7%), GAAP 순손실 약 $29.2M(전년 $41.9M 대비 개선), 수주잔고 사상 최고치 $5.6B 달성. 현금 및 현금성 자산 $412.9M, 상반기 누적 수주액 약 $2.0B(전년 대비 2배).\",\n      \"url\": \"https://www.sec.gov/Archives/edgar/data/0001868941/000110465926056304/flnc-20260331x10q.htm\",\n      \"significance\": \"high\",\n      \"notes\": \"수주잔고 사상 최고 $5.6B 기록 및 FY2026 가이던스($3.2~$3.6B 매출) 재확인. 수익성 개선 추세 확인. 반면 여전히 적자 지속 중으로 손익분기점 도달 시점 주목 필요.\"\n    },\n    {\n      \"form_type\": \"8-K\",\n      \"date\": \"2026-05-13\",\n      \"description\": \"기존 지배주주(Siemens, AES, QIA 등)에 의한 Class A 보통주 2,000만 주 2차 공모 가격 결정 공시. 주당 $21.00에 총 117,666,665주 규모 등록(S-3ASR 및 424B7 포함).\",\n      \"url\": \"https://www.sec.gov/Archives/edgar/data/0001868941/000110465926059052/tm2613150-1_s3asr.htm\",\n      \"significance\": \"high\",\n      \"notes\": \"기존 대주주들의 대규모 주식 매도 공시. 지배주주 지분 축소 가능성 및 유통 물량 증가에 따른 주가 희석 우려. QIA, Siemens 등 매도 규모 및 잔여 지분 변화 모니터링 필요.\"\n    },\n    {\n      \"form_type\": \"8-K\",\n      \"date\": \"2026-05-12\",\n      \"description\": \"기존 지배주주에 의한 Class A 보통주 2차 공모 개시 발표. Barclays, Goldman Sachs, J.P. Morgan을 주간사로 하는 언더라이팅 계약 체결.\",\n      \"url\": \"https://www.stocktitan.net/sec-filings/FLNC/8-k-fluence-energy-inc-reports-material-event-f063cb7f08e4.html\",\n      \"significance\": \"high\",\n      \"notes\": \"주간사로 Barclays, Goldman Sachs, JPMorgan 참여. 대규모 2차 공모에 따른 수급 영향 및 주가 변동성 확대 가능성 주의.\"\n    },\n    {\n      \"form_type\": \"S-3ASR\",\n      \"date\": \"2026-05-12\",\n      \"description\": \"자동 유효 등록 신고서(S-3ASR). 2026년 5월 1일 기준 Class A 보통주 132,811,490주 및 Class B-1 보통주 51,499,195주 기준으로 총 117,666,665주 등록.\",\n      \"url\": \"https://www.sec.gov/Archives/edgar/data/0001868941/000110465926059052/tm2613150-1_s3asr.htm\",\n      \"significance\": \"medium\",\n      \"notes\": \"LLC Interests 전환 포함 대규모 지분 매각 등록. 유통 주식수 증가로 인한 EPS 희석 효과 분석 필요.\"\n    },\n    {\n      \"form_type\": \"SCHEDULE 13G/A\",\n      \"date\": \"2026-05-13\",\n      \"description\": \"Qatar Investment Authority(QIA)의 지분 공시 수정. Class A 보통주 11,801,103주(8.3%) 직접 보유 신고. Stockholder Agreement에 따른 그룹 보유 지분은 97,666,665주(53.0%).\",\n      \"url\": \"https://www.stocktitan.net/sec-filings/FLNC/schedule-13g-a-fluence-energy-inc-amended-passive-investment-disclosu-f0e813706981.html\",\n      \"significance\": \"medium\",\n      \"notes\": \"QIA가 Siemens, AES와 함께 주주 협약(Stockholder Agreement)을 통해 공동으로 53%의 지배력 유지. 대주주 지분 구조 변화 모니터링 필요.\"\n    },\n    {\n      \"form_type\": \"SCHEDULE 13G/A\",\n      \"date\": \"2026-02-09\",\n      \"description\": \"Siemens 계열사의 지분 공시 수정. 2025년 12월 31일 기준 Class A 보통주 51,499,195주(38.9%) 보유. Siemens AG 직접 보유 19,738,064주, SPT Holding Sarl 보유 31,761,131주.\",\n      \"url\": \"https://www.stocktitan.net/sec-filings/FLNC/schedule-13g-a-fluence-energy-inc-amended-passive-investment-disclosu-b64298ad8c71.html\",\n      \"significance\": \"medium\",\n      \"notes\": \"SPT Invest Management Sarl 지분 완전 정리 및 SPT Holding Sarl로 이전. Siemens 그룹 내 지분 구조 재편 신호. Siemens의 장기 보유 의지 확인 필요.\"\n    },\n    {\n      \"form_type\": \"8-K\",\n      \"date\": \"2026-05-06\",\n      \"description\": \"FY2026 2분기 실적 발표 (2026년 3월 31일 종료 분기). 매출 $464.9M(+7.7% YoY), GAAP 총이익률 10.0%, Adjusted EBITDA 약 -$9.4M(전년 -$30.4M 대비 대폭 개선), FY2026 전체 가이던스 재확인.\",\n      \"url\": \"https://www.sec.gov/Archives/edgar/data/0001868941/000186894126000014/flncq2fy26earningspressrel.htm\",\n      \"significance\": \"high\",\n      \"notes\": \"FY2026 매출 가이던스 $3.2~$3.6B 및 Adjusted EBITDA $40~$60M 재확인. 연말 연간반복매출(ARR) $180M 목표 유지. 수익성 개선 모멘텀 지속 여부가 핵심 투자 포인트.\"\n    },\n    {\n      \"form_type\": \"8-K/A\",\n      \"date\": \"2026-04-06\",\n      \"description\": \"신디케이트 대출 계약 4차 수정 관련 8-K 수정 공시. Credit Agreement의 Trigger Date를 2025년 12월 31일에서 2026년 12월 31일로 연장, 최소 유동성 커버넌트 $150M 유지.\",\n      \"url\": \"https://www.stocktitan.net/sec-filings/FLNC/\",\n      \"significance\": \"medium\",\n      \"notes\": \"레버리지 비율 테스트(3.50:1.00) 시작 시점을 2027년 1월 1일로 연기. $450M 초과 시 $50M 현금 담보 요구 조항 신설. 유동성 관리 및 재무 커버넌트 준수 여부 지속 모니터링 필요.\"\n    },\n    {\n      \"form_type\": \"8-K\",\n      \"date\": \"2026-04-20\",\n      \"description\": \"FY2026 2분기 실적 발표 일정 및 컨퍼런스 콜/웨비나 사전 공지.\",\n      \"url\": \"https://www.stocktitan.net/sec-filings/FLNC/\",\n      \"significance\": \"low\",\n      \"notes\": \"정기적인 IR 공지 공시. 투자자 참여 가능한 실적 발표 일정 안내.\"\n    },\n    {\n      \"form_type\": \"8-K\",\n      \"date\": \"2026-04-06\",\n      \"description\": \"미국 내 제품 공급 가용성 재확인 발표. 관세 및 무역 불확실성 환경에서도 미국 내 에너지 저장 제품 공급 지속 가능 입장 표명.\",\n      \"url\": \"https://www.stocktitan.net/sec-filings/FLNC/\",\n      \"significance\": \"medium\",\n      \"notes\": \"미중 무역 갈등 및 관세 이슈 속 공급망 리스크에 대한 회사의 공식 입장. 미국 내 프로젝트 수주 및 납품 일정에 영향 가능. 공급망 다변화 전략 주목.\"\n    },\n    {\n      \"form_type\": \"DEF 14A\",\n      \"date\": \"2026-01-26\",\n      \"description\": \"주주총회 의결권 위임장 공시(확정본). 이사회 구성, 임원 보수, 감사인 승인 등 안건 포함.\",\n      \"url\": \"https://www.stocktitan.net/sec-filings/FLNC/\",\n      \"significance\": \"low\",\n      \"notes\": \"신임 이사 Al-Darwish Fahad Abdulla MM(Form 3 동반 제출) 선임 관련 내용 포함. QIA 연계 이사 선임 여부 확인 필요.\"\n    },\n    {\n      \"form_type\": \"8-K\",\n      \"date\": \"2026-02-04\",\n      \"description\": \"FY2026 1분기 실적 발표 (2025년 12월 31일 종료 분기). 매출 $475.2M(+154.4% YoY), GAAP 총이익률 4.9%, Adjusted 총이익률 5.6%. FY2026 가이던스 재확인.\",\n      \"url\": \"https://www.sec.gov/Archives/edgar/data/0001868941/000186894126000004/flnc-20260204.htm\",\n      \"significance\": \"high\",\n      \"notes\": \"전년 동기 대비 매출 154% 급증으로 강한 성장세 확인. 다만 총이익률 4.9%로 낮은 수준. 2분기 마진 10.0%로 개선 확인됨. Q1 저마진은 프로젝트 믹스 효과로 분석됨.\"\n    },\n    {\n      \"form_type\": \"ARS\",\n      \"date\": \"2026-01-26\",\n      \"description\": \"연간 주주 보고서(Annual Report to Shareholders) 제출.\",\n      \"url\": \"https://www.stocktitan.net/sec-filings/FLNC/\",\n      \"significance\": \"low\",\n      \"notes\": \"FY2025 연간 실적 및 사업 현황 요약 자료. 10-K와 함께 참고 권장.\"\n    }\n  ],\n  \"total_count\": 13,\n  \"last_10q_date\": \"2026-05-06\",\n  \"last_8k_date\": \"2026-05-13\",\n  \"summary\": \"Fluence Energy(FLNC)는 2026년 들어 적극적인 SEC 공시 활동을 이어가고 있습니다. 가장 주목할 사건은 2026년 5월 기존 대주주(Siemens, AES, QIA)에 의한 대규모 2차 주식 공모(최대 1억 1,766만 주 규모)입니다. 재무적으로는 FY2026 2분기(3월 31일 종료) 매출 $464.9M(+7.7% YoY), 수주잔고 사상 최고 $5.6B, Adjusted EBITDA 대폭 개선(-$9.4M, 전년 -$30.4M) 등 수익성 개선 추세가 확인됩니다. FY2026 전체 가이던스($3.2~$3.6B 매출, EBITDA $40~$60M)는 두 차례 분기 발표에서 모두 재확인되었습니다. 신용 계약 수정(Trigger Date 연장)으로 단기 재무 유연성도 확보했습니다.\",\n  \"notable_events\": [\n    \"2026년 5월 기존 대주주(Siemens/AES/QIA)에 의한 Class A 보통주 최대 1억 1,766만 주 대규모 2차 공모 실시(주당 $21.00) - 유통 물량 증가 및 수급 압박 가능성\",\n    \"FY2026 2분기 수주잔고 사상 최고치 $5.6B 달성 및 상반기 누적 수주액 $2.0B(전년 대비 2배) - 강한 성장 모멘텀\",\n    \"Credit Agreement Trigger Date 2026년 12월 31일로 연장 및 레버리지 비율 테스트 2027년 1월 1일로 유예 - 단기 유동성 리스크 완화\",\n    \"QIA(카타르 투자청) 지분 8.3% 직접 보유 확인, Stockholder Agreement 기반 그룹 지분 53.0% 유지 - 지배구조 안정성\",\n    \"미국 내 제품 공급 가용성 재확인(2026년"
+  },
+  "ess": {
+    "stocks": [
+      {
+        "ticker": "FLNC",
+        "company": "Fluence Energy, Inc.",
+        "current_price": "$20.88",
+        "change_1d": "+~2.0%",
+        "change_5d": "+~54%",
+        "change_1m": "+~54%",
+        "52w_high": "$33.51",
+        "52w_low": "$4.40",
+        "trend": "강한상승",
+        "notes": "Q2 실적 미스에도 FY26 매출 가이던스($3.2B~$3.6B) 재확인 및 기록적 $5.6B 수주잔고로 주가 급등, 데이터센터 수요 부각"
+      },
+      {
+        "ticker": "STEM",
+        "company": "Stem, Inc.",
+        "current_price": "$9.14",
+        "change_1d": "-0.3%",
+        "change_5d": "-~5%",
+        "change_1m": "-~15%",
+        "52w_high": "$32.23",
+        "52w_low": "$5.93",
+        "trend": "하락",
+        "notes": "Q1 2026 매출 11% YoY 감소($29M), 다수 애널리스트 목표주가 하향($10~$11), 52주 고점 대비 71% 하락"
+      },
+      {
+        "ticker": "ENPH",
+        "company": "Enphase Energy, Inc.",
+        "current_price": "$69.50",
+        "change_1d": "-1.11%",
+        "change_5d": "+~11%",
+        "change_1m": "+~125%",
+        "52w_high": "$71.30",
+        "52w_low": "$26.12",
+        "trend": "강한상승",
+        "notes": "IQ9S-3P 상업용 마이크로인버터 사전주문 개시 및 AI 데이터센터용 고체 변압기(1.25MW) 개발 발표로 급등, Citi는 고평가 경고"
+      },
+      {
+        "ticker": "SEDG",
+        "company": "SolarEdge Technologies, Inc.",
+        "current_price": "$73.19",
+        "change_1d": "-0.05%",
+        "change_5d": "+~25.8%",
+        "change_1m": "+~91%",
+        "52w_high": "$75.73",
+        "52w_low": "$13.73",
+        "trend": "강한상승",
+        "notes": "Q2 매출 가이던스($325M~$355M) 발표 및 세금 공제 마감 전 태양광 수요 급증 기대감으로 급등, 52주 신고가 근접; GLJ는 매도 유지"
+      },
+      {
+        "ticker": "AES",
+        "company": "AES Corporation",
+        "current_price": "$14.69",
+        "change_1d": "+0.07%",
+        "change_5d": "+~1.7%",
+        "change_1m": "+~2%",
+        "52w_high": "$17.65",
+        "52w_low": "$9.58",
+        "trend": "횡보",
+        "notes": "배당수익률 4.8% 유지, 복수 애널리스트 하향 조정(Susquehanna·Morgan Stanley·Mizuho 등), 미국 최대 태양광+ESS 프로젝트 추진 중"
+      },
+      {
+        "ticker": "NEE",
+        "company": "NextEra Energy, Inc.",
+        "current_price": "$88.05",
+        "change_1d": "-1.02%",
+        "change_5d": "-7.58%",
+        "change_1m": "약 -5% (추정)",
+        "52w_high": "$98.75",
+        "52w_low": "$66.77",
+        "trend": "하락",
+        "notes": "Dominion Energy 합병 추진 중; 배당금 $0.623 (ex-date 6월 5일) 예정, 단기 하락 추세 지속"
+      },
+      {
+        "ticker": "BE",
+        "company": "Bloom Energy Corporation",
+        "current_price": "$284.70",
+        "change_1d": "-5.87%",
+        "change_5d": "약 -8% (추정)",
+        "change_1m": "+약 20% (추정)",
+        "52w_high": "$322.83",
+        "52w_low": "$18.12",
+        "trend": "강한상승",
+        "notes": "AI 데이터센터向 연료전지 수요 급증; Nebius와 $2.65B 규모 328MW 연료전지 공급 계약 체결로 YTD +250% 이상 급등"
+      },
+      {
+        "ticker": "PLUG",
+        "company": "Plug Power Inc.",
+        "current_price": "$4.16",
+        "change_1d": "+7.81%",
+        "change_5d": "+22.49%",
+        "change_1m": "+31.43%",
+        "52w_high": "$4.58",
+        "52w_low": "$0.81",
+        "trend": "강한상승",
+        "notes": "Q1 2026 매출 22% 성장($163.5M), 마진 42%p 개선; 2026년 Q4 EBITDA 흑자 전환 목표 발표로 투자심리 회복"
+      },
+      {
+        "ticker": "FCEL",
+        "company": "FuelCell Energy, Inc.",
+        "current_price": "$25.01",
+        "change_1d": "-5.19%",
+        "change_5d": "약 -10% (추정)",
+        "change_1m": "약 -31.5% (3개월 기준)",
+        "52w_high": "$26.38",
+        "52w_low": "$3.92",
+        "trend": "하락",
+        "notes": "52주 신고가 근접 후 조정; AI 데이터센터 전력 수요 대응 전략 피벗 중이나 지속적 적자 및 백로그 축소 우려"
+      },
+      {
+        "ticker": "ARRY",
+        "company": "Array Technologies, Inc.",
+        "current_price": "$9.03",
+        "change_1d": "+4.51%",
+        "change_5d": "약 0% (횡보)",
+        "change_1m": "+19.69%",
+        "52w_high": "$12.23",
+        "52w_low": "$3.98",
+        "trend": "상승",
+        "notes": "Q1 2026 매출 $223M으로 컨센서스 상회; 2026년 매출 가이던스 $1.4B~$1.5B 유지, 레코드 $2.4B 수주 잔고 기록"
+      }
+    ],
+    "sector_trend": "N/A",
+    "sector_summary": "",
+    "top_performer": "",
+    "worst_performer": "",
+    "flnc_vs_sector": "",
+    "investment_outlook": "",
+    "key_catalysts": [],
+    "sector_risks": []
+  },
+  "earnings_call": {
+    "call_date": "2026-05-07",
+    "quarter": "Q2 FY2026 (회계연도 2026년 2분기, 기간: 2026년 3월 31일 종료)",
+    "ceo_tone": "Confident",
+    "tone_score": 3,
+    "key_statements": [
+      {
+        "speaker": "CEO (Julian Nebreda)",
+        "quote": "Since our February call, we made meaningful progress on order intake, our U.S. domestic supply chains, and our product roadmap as we position Fluence to capture expanding global demand for energy storage.",
+        "implication": "미국 공급망 현지화 및 수주 모멘텀 강화 — 관세 리스크 헤지 및 IRA 국내 콘텐츠 혜택 유지 가능성 시사"
+      },
+      {
+        "speaker": "CEO (Julian Nebreda)",
+        "quote": "As of today, we've signed approximately $2 billion of orders this year, which is double the amount signed through the same period last year.",
+        "implication": "YTD 수주 $20억으로 전년 동기 대비 2배 — 수요 가속화 실증, 백로그 성장 지속 가시성 높음"
+      },
+      {
+        "speaker": "CFO (Ahmed Pasha)",
+        "quote": "Although we expect ASPs to continue to decline for the balance of fiscal 2026, we are forecasting approximately 50% revenue growth with adjusted gross margins in the range of 11%-13%.",
+        "implication": "ASP(평균판매가격) 하락 인정에도 불구하고 매출 50% 성장 목표 유지 — 물량 확대로 상쇄 전략"
+      },
+      {
+        "speaker": "CFO (Ahmed Pasha)",
+        "quote": "With all equipment ordered and production tracking as planned, we are confident in delivering on our customer commitments and our full year revenue goals.",
+        "implication": "생산 계획 정상 궤도 확인 — 하반기 매출 집중(70%) 실현 가능성에 대한 경영진 신뢰 표명"
+      },
+      {
+        "speaker": "CEO (Julian Nebreda)",
+        "quote": "50% of our orders this year come from new customers.",
+        "implication": "신규 고객 비중 50%는 고객 기반 다변화 진전 — 특정 고객 의존 리스크 완화 및 성장 지속성 긍정적"
+      }
+    ],
+    "guidance_change": "maintained",
+    "guidance_details": "FY2026 연간 가이던스 전면 재확인: ① 매출 $32억~$36억 (중간값 $34억, 하반기에 약 70% 집중, Q3:Q4 = 30%:70%), ② ARR(연간 반복 매출) 약 $1.8억 (FY2025 $1.48억 대비 증가), ③ 조정 EBITDA $4천만~$6천만. Q2 매출이 베트남 통관·스페인 하역장비 부족으로 약 $8천만 Q3로 이연됐으나 두 이슈 모두 해결됐으며 가이던스에 영향 없음.",
+    "analyst_qa_highlights": [
+      "Q2 매출 미스($4.65억 vs 컨센서스 약 $6.3억, 약 26% 하회) 원인 추궁 — 경영진은 베트남 통관 문제(약 $4천만)와 스페인 장비 부족(약 $4천만) 두 가지 일시적 이슈로 해명하며 Q3 회수 확인",
+      "하이퍼스케일러(대형 데이터센터) 고객 2곳과 마스터공급계약(MSA) 체결 발표 — 애널리스트들은 초기 주문 시점과 계약 규모에 집중 질의, 경영진은 Q3 내 1곳에서 첫 주문 예상이라고 답변",
+      "ASP(평균판매가격) 하락 추세 지속 우려 — CFO는 하락 인정하면서도 물량 확대와 원가 절감으로 마진 밴드(11~13%) 유지 가능하다고 방어",
+      "미국 IRA 정책 불확실성 및 관세 리스크 대응 방안 — 경영진은 미국 국내 공급망 구축과 FEOC 컴플라이언스 로드맵으로 대응 중임을 강조",
+      "중동 분쟁 노출 여부 질의 — 경영진은 호르무즈 해협을 경유하는 선적 없음을 확인하며 지정학적 리스크 차단 선언",
+      "Q3~Q4 매출 배분(30%:70%) 후반 집중 가능성 및 실행 리스크 — 경영진은 장비 발주 완료 및 생산 일정 준수 중임을 근거로 신뢰도 방어"
+    ],
+    "management_credibility": "Medium",
+    "credibility_reason": "가이던스를 Q1·Q2 연속 재확인하고, 기록적 백로그($56억)와 YTD 수주 $20억(전년 2배)의 구체적 수치로 뒷받침하는 점은 긍정적. 그러나 Q2 매출이 컨센서스를 약 26% 대폭 하회했고 하반기 매출 70% 이상 집중이라는 극단적 후반 편중 구조를 유지하고 있어, 단기 실행 리스크가 상존함. 또한 Q1 GAAP 조정 총이익률이 5.6%로 급락했다가 Q2에 11.1%로 회복한 변동성도 경계 요소. 주가는 실적 발표 후 약 50% 급등해 시장은 중기 성장성을 신뢰하는 반응을 보임.",
+    "red_flags": [
+      "Q2 매출 $4.65억으로 컨센서스(약 $6.3억) 대비 약 26% 대규모 미스 — 이연 이슈가 반복될 경우 가이던스 달성 불확실성 증가",
+      "FY2026 매출의 약 70%가 하반기에 집중(Q3 30%, Q4 40% 추정) — 후반 집중형 구조로 인해 실행 실패 시 연간 가이던스 전체가 위협받는 구조적 취약점",
+      "ASP(평균판매가격) 지속 하락 추세 인정 — 리튬 가격 상승기에 일부 고객 의사결정 지연 현상 발생",
+      "Q1 FY2026 GAAP 총이익률 4.9%, 조정 총이익률 5.6%로 급락 — 두 프로젝트 추가 비용 발생, 비록 Q2 회복됐으나 프로젝트 원가 변동성 리스크 내재",
+      "IRA(인플레이션감축법) 및 관세 정책 불확실성 — One Big Beautiful Bill Act(OBBBA) 등 정책 변화가 사업 모델에 영향 가능",
+      "5월 12~13일 기존 주요 주주(지배 주주)의 대규모 주식 공개매각(Secondary Offering) 공시 — 내부자 차익 실현 신호로 해석될 수 있음"
+    ],
+    "positive_signals": [
+      "기록적 수주잔고(백로그) $56억 달성 — 추가 성장 예상 발언과 함께 FY2026 매출 중간값($34억) 커버리지 확보",
+      "YTD 수주 약 $20억(5월 6일 기준), 전년 동기 대비 2배 — Q3 초 기준 이미 $6억 이상 추가 수주",
+      "대형 하이퍼스케일러 2곳과 MSA(마스터공급계약) 체결, Q3 첫 주문 예상 — 데이터센터 시장 진출 교두보 확보",
+      "Q2 조정 총이익률 11.1%로 Q1(5.6%) 대비 대폭 반등, 연간 가이던스 밴드(11~13%) 내 복귀",
+      "총 유동성 약 $9억(현금 $4.13억 포함) 유지 — 연말까지 동 수준 회복 목표 제시로 재무 건전성 확인",
+      "신규 고객 비중 50% 달성 — 유틸리티·개발사 세그먼트 고객 다변화 성공, 특정 고객 집중 리스크 완화",
+      "Smartstack(장기저장 솔루션) 첫 번째 프로젝트 상업 운전 개시 — 신제품 플랫폼 실증 완료",
+      "중동 분쟁·호르무즈 해협 노출 없음 확인 — 지정학적 공급망 리스크 차단",
+      "미국 국내 공급망 강화 및 FEOC 컴플라이언스 로드맵 진행 중 — IRA 국내 콘텐츠 혜택 유지 가능성 높음"
+    ]
+  },
+  "short_sentiment": {
+    "short_interest_pct": "37.33%",
+    "short_interest_shares": "24,475,842주 (2026년 4월 15일 기준)",
+    "days_to_cover": "6.28일",
+    "short_change": "+3.6% 증가 (2026년 3월 31일 대비 4월 15일 기준)",
+    "short_trend": "increasing",
+    "short_squeeze_risk": "High",
+    "put_call_ratio": "~1.00 (2025년 11월 기준 Put-Call IV Ratio 1.0012; 최신 정밀값 미확인)",
+    "options_sentiment": "Bullish",
+    "iv_rank": "75 (추정 — 주가 변동성 극심: 1주일 +98%, 이후 급락 반복, 고 IV 환경)",
+    "notable_options": "2026년 5월 7일(Q2 실적 발표 직후) 콜옵션 거래량 13,701건 폭증 — 평균 대비 +150% 급증. 숏스퀴즈 트리거 이후 단기 콜 포지션 대규모 유입 확인.",
+    "insider_trading": [
+      {
+        "date": "2026-05-15",
+        "person": "AES Grid Stability LLC (AES Corporation 자회사 / 10% 이상 주요주주)",
+        "type": "sell",
+        "shares": "10,066,414",
+        "value": "$211,394,694 (주당 $21.00)"
+      },
+      {
+        "date": "2026-05-13",
+        "person": "Siemens 계열사 (주요주주)",
+        "type": "sell",
+        "shares": "10,066,414",
+        "value": "$206,728,200 (주당 $20.5275, 2차 공모)"
+      },
+      {
+        "date": "2026-05-18",
+        "person": "Qatar Investment Authority (10% 주요주주)",
+        "type": "sell",
+        "shares": "2,867,172",
+        "value": "$60,210,612 (주당 $21.00)"
+      }
+    ],
+    "summary": "FLNC는 현재 유동주식의 37.33%에 달하는 초고공매도 종목으로, '최다 공매도 종목(Most Shorted Stocks)' 리스트에 등재된 상태입니다. 숏커버 소요일 6.28일 및 지속적인 공매도 증가(전월 대비 +3.6%)는 숏스퀴즈 리스크를 High 수준으로 유지시킵니다. 실제로 2026년 5월 7일 Q2 실적 발표 직후(하이퍼스케일러 2사 MSA 체결, 기록적 $5.6B 수주잔고 공시) 주가가 단 1주일 만에 +98% 급등하며 숏스퀴즈가 발현된 바 있습니다. 옵션 시장은 콜옵션 거래량이 평균 대비 150% 폭증하며 단기 강세(Bullish) 심리를 반영하나, 주가는 $12~$27 사이의 극단적 변동성을 보이고 있어 내재변동성(IV)은 매우 높은 수준으로 추정됩니다. 반면 내부자/주요주주 동향은 명확한 매도 우위입니다 — AES, Siemens, QIA 등 지배주주 3곳이 5월 중순 2차 공모를 통해 총 약 2,300만 주($478M 규모)를 매각하였고, 추가로 117.67M주 등록매도 신청이 잠재적 공급 압력으로 대기 중입니다. 공매도는 매우 높고 숏스퀴즈 재발 가능성이 존재하나, 지배주주의 대규모 블록셀 및 UBS Sell 유지($9 목표), 적자 지속(FY2025 순손실 $68M)이 하방 압력으로 작용하며 양방향 극단적 변동성 구간이 지속될 전망입니다."
+  },
+  "institutional": {
+    "institutional_ownership_pct": "약 46.63~66.14% (데이터 소스별 상이 / TipRanks 최신 기준 약 46.63%)",
+    "total_institutional_shares": "125,322,202주 (Fintel 기준, 289개 기관 보유)",
+    "top_holders": [
+      {
+        "name": "Vanguard Group Inc",
+        "shares": "N/A (상위 보유자 1위)",
+        "pct": "N/A",
+        "change": "N/A",
+        "action": "N/A"
+      },
+      {
+        "name": "Siemens AG / Siemens Pension Trust EV",
+        "shares": "약 51,500,000주 (2차 공모 이전 기준)",
+        "pct": "약 38~39% (Class A+B 합산, 공모 후 축소)",
+        "change": "감소 (2026년 5월 2차 공모 통해 일부 매도)",
+        "action": "decreased"
+      },
+      {
+        "name": "AES Grid Stability LLC",
+        "shares": "약 51,500,000주 (2차 공모 이전 기준)",
+        "pct": "약 38~39% (공모 후 축소)",
+        "change": "감소 (2026년 5월 2차 공모 참여 및 LLC 유닛 상환)",
+        "action": "decreased"
+      },
+      {
+        "name": "Qatar Investment Authority (QIA)",
+        "shares": "11,801,103주 (2026년 5월 15일 기준)",
+        "pct": "8.9% (Class A 기준, 132,811,490주 기준)",
+        "change": "감소 (-2,867,172주, $21/주, 총 $60.2M 매도)",
+        "action": "decreased"
+      },
+      {
+        "name": "BlackRock Inc",
+        "shares": "N/A",
+        "pct": "N/A",
+        "change": "N/A",
+        "action": "N/A"
+      },
+      {
+        "name": "D.E. Shaw & Co",
+        "shares": "N/A",
+        "pct": "N/A",
+        "change": "N/A",
+        "action": "N/A"
+      },
+      {
+        "name": "Two Sigma Investments LP",
+        "shares": "N/A",
+        "pct": "N/A",
+        "change": "N/A",
+        "action": "N/A"
+      },
+      {
+        "name": "T. Rowe Price Associates",
+        "shares": "N/A",
+        "pct": "N/A",
+        "change": "N/A",
+        "action": "N/A"
+      },
+      {
+        "name": "Jane Street Group LLC",
+        "shares": "N/A",
+        "pct": "N/A",
+        "change": "N/A",
+        "action": "N/A"
+      },
+      {
+        "name": "Connor, Clark & Lunn Investment Mgmt",
+        "shares": "N/A",
+        "pct": "N/A",
+        "change": "N/A",
+        "action": "N/A"
+      }
+    ],
+    "notable_changes": [
+      {
+        "institution": "AES Grid Stability LLC",
+        "action": "매도/전환",
+        "shares": "10,066,414주 (LLC 유닛 상환 → Class A 전환) + 2차 공모 참여 매도",
+        "significance": "2026년 5월 14일 LLC 유닛 상환권 행사로 Class B-1 취소 및 Class A 전환. 지분 단순화 진행 중이나 지배주주 지위 유지"
+      },
+      {
+        "institution": "Qatar Investment Authority (QIA)",
+        "action": "매도 (부분)",
+        "shares": "-2,867,172주 ($21/주, $60.2M 규모)",
+        "significance": "2026년 5월 15일 2차 공모 통해 일부 차익 실현. 잔여 8.9% 지분(11.8M주) 유지하며 장기 전략적 투자자 포지션 유지"
+      },
+      {
+        "institution": "Siemens AG (SPT Holding)",
+        "action": "매도 (부분)",
+        "shares": "2026년 5월 $420M 2차 공모 참여 (AES·Siemens·QIA 합산 20M주+옵션 3M주)",
+        "significance": "AES·Siemens 각 약 51.5M주 보유에서 일부 매도. 공모 후 지분율 축소되었으나 지배주주 그룹 Stockholder Agreement 유지"
+      },
+      {
+        "institution": "전체 기관 투자자",
+        "action": "순매수",
+        "shares": "전분기 대비 기관 보유 주식 +6.60% 증가 (Fintel 기준)",
+        "significance": "주가 회복세(2025년 3월 $5.03 → 2026년 3월 $14.96, +197%) 속 기관 매집 지속"
+      }
+    ],
+    "smart_money_trend": "Accumulating",
+    "hedge_fund_count": "289개 기관(13D/G 또는 13F 제출 기준, Fintel), 상세 헤지펀드 수는 유료 데이터 필요",
+    "qia_status": "QIA(카타르 국부펀드): 2026년 5월 15일 기준 11,801,103주(Class A 8.9%) 보유. 2차 공모에서 2,867,172주를 $21/주($60.2M)에 매도하며 소폭 지분 축소. AES·Siemens와 Stockholder Agreement 파티로 그룹 합산 53.0% 의결권 유지. 완전 청산 아닌 장기 보유 의사 표명.",
+    "aes_status": "AES Grid Stability LLC: 2차 공모(2026년 5월) 이전 약 51.5M주 보유. 2026년 5월 14일 10,066,414 LLC 유닛 상환권 행사로 Class B-1 취소 및 Class A 발행(주식 구조 단순화). 2차 공모 참여로 일부 매도. Siemens와 함께 지배주주 그룹으로 Stockholder Agreement 유지 중.",
+    "summary": "2026년 5월, AES·Siemens·QIA 주요 창업주주들이 $420M 규모 2차 공모(20M주+3M 옵션)를 통해 일부 지분을 차익 실현했으나, 세 주주 모두 잔여 지분을 유지하며 Stockholder Agreement 하의 지배주주 지위를 보존하고 있다. 전체 기관 보유 주식은 전분기 대비 +6.60% 증가하였으며, 주가는 지난 1년간 197% 급등한 가운데 기관 자금의 순매집 흐름이 지속되고 있다."
+  },
+  "competitors": {
+    "comparison": [
+      {
+        "ticker": "FLNC",
+        "company": "Fluence Energy",
+        "revenue_ttm": "약 $2.3B (FY2025 기준) → FY2026 가이던스 $3.2B~$3.6B",
+        "revenue_growth_yoy": "FY2026 약 +50% (가이던스 기준); H1 FY2026 YoY 약 +39%",
+        "gross_margin": "GAAP 약 10.0% (Q2 FY2026); FY2025 연간 약 13.1%",
+        "ebitda_margin": "조정 EBITDA: FY2026 전망 $40M~$60M / 매출 대비 약 1~2% (손익분기점 근접)",
+        "backlog": "$5.6B (2026년 3월 31일 기준, 사상 최고치)",
+        "ev_revenue": "약 0.4~0.6x (저평가 구간, 소형 시총 대비 높은 매출 기반)",
+        "market_cap": "약 $700M~$900M (2026년 5월 기준 추정)",
+        "net_cash": "현금 약 $477.8M (2025년 12월 기준); 부채 차감 후 순현금 소폭 양(+) 추정",
+        "profitability": "Loss-making",
+        "competitive_edge": "글로벌 BESS(대용량 배터리 에너지저장) 시장 점유율 1위; 하이퍼스케일러 2곳과 MSA 계약 체결; AI-powered Mosaic 소프트웨어 플랫폼; Siemens·AES 합작사 신뢰도; 사상 최대 수주잔고 $5.6B"
+      },
+      {
+        "ticker": "BE",
+        "company": "Bloom Energy",
+        "revenue_ttm": "약 $2.45B (TTM 2026년 3월 기준)",
+        "revenue_growth_yoy": "+56.5% YoY (TTM 기준); Q1 2026 단기 +130.4% YoY; FY2026 가이던스 약 +80% YoY ($3.4B~$3.8B)",
+        "gross_margin": "GAAP 약 30.0% (Q1 2026); Non-GAAP 목표 약 34% (FY2026 전망)",
+        "ebitda_margin": "Non-GAAP 영업이익 가이던스 $600M~$750M; EBITDA 마진 약 17~20% (FY2026 전망)",
+        "backlog": "2025년 제품 백로그 YoY 2.5배 성장; Oracle과 최대 2.8GW MSA 계약",
+        "ev_revenue": "약 2.5~3.5x (고성장 프리미엄 반영)",
+        "market_cap": "약 $60B~$70B (2026년 5월 기준, 급등 후 추정)",
+        "net_cash": "2년 연속 영업 현금흐름 흑자; 순부채 소폭 보유 추정",
+        "profitability": "Profitable",
+        "competitive_edge": "고체산화물 연료전지(SOFC) 독자 기술; AI 데이터센터 전력 수요 수혜 최대 수혜주; Oracle·하이퍼스케일러 대형 계약; 온사이트 전력 공급으로 그리드 독립성 제공; 높은 마진 구조"
+      },
+      {
+        "ticker": "STEM",
+        "company": "Stem Inc.",
+        "revenue_ttm": "약 $152.75M (TTM 기준)",
+        "revenue_growth_yoy": "Q1 2026 YoY -11% (배터리 하드웨어 재판매 부재); 소프트웨어/서비스 코어 매출 +4%",
+        "gross_margin": "GAAP·Non-GAAP 전년 동기 대비 각 600bps 개선 (구체 % 미공시, 추정 20~25%)",
+        "ebitda_margin": "조정 EBITDA $2M (Q1 2026, 분기 사상 첫 Q1 흑자); 연간 EBITDA 마진 소폭 양(+) 전환 중",
+        "backlog": "별도 수주잔고 미공시 (소프트웨어 AUM 기반 반복매출 모델)",
+        "ev_revenue": "약 2.52x EV/Revenue (TTM); 시총 대비 EV 큰 편 (부채 포함)",
+        "market_cap": "약 $91.8M (2026년 5월 기준)",
+        "net_cash": "순부채 보유; EV $384.3M vs 시총 $91.8M → 상당한 순부채",
+        "profitability": "Near-break-even",
+        "competitive_edge": "PowerTrack AI 소프트웨어 플랫폼; 에너지 저장 자산 운영 최적화(AMS) SaaS 모델; 소프트웨어 매출 비중 확대 전략; Nuvation Energy와 북미산 배터리 공동 마케팅"
+      },
+      {
+        "ticker": "ENPH",
+        "company": "Enphase Energy",
+        "revenue_ttm": "약 $1.2B~$1.3B (TTM 추정; FY2025 연간 약 $1.47B)",
+        "revenue_growth_yoy": "Q1 2026 YoY -20.6% (주거용 태양광 수요 둔화 및 25D 세액공제 만료 영향)",
+        "gross_margin": "GAAP 약 35.5% (Q1 2026); Non-GAAP 약 43.9% (타 관세 영향 포함)",
+        "ebitda_margin": "Non-GAAP 영업이익 $79.4M (Q4 2025); EBITDA 마진 추정 약 20~25%",
+        "backlog": "해당 없음 (프로젝트형 수주잔고 비즈니스 모델 아님)",
+        "ev_revenue": "약 1.5~2.0x (밸류에이션 다소 압축된 상태)",
+        "market_cap": "약 $7B~$8B (2026년 5월 기준 추정)",
+        "net_cash": "전환사채 $632.5M 상환 완료; 순현금 소폭 양(+) 전환 추정",
+        "profitability": "Near-break-even",
+        "competitive_edge": "마이크로인버터 글로벌 1위; 반도체 기반 GaN 기술(IQ9 시리즈); 주거용·상업용 태양광+배터리 통합 플랫폼; IQ SST(고체상태변압기)로 AI 데이터센터 시장 진출 준비; 높은 Non-GAAP 마진 구조"
+      }
+    ],
+    "flnc_strengths": [
+      "사상 최대 수주잔고 $5.6B 확보 (2026년 3월 기준) 및 연초 이후 주문량 YoY 2배($2.0B), 대형 하이퍼스케일러 2곳과 MSA 체결로 데이터센터 전력 수요 직접 수혜",
+      "Siemens·AES 합작사 배경의 글로벌 BESS 시장 리더십, AI 기반 Mosaic 소프트웨어 및 ARR $180M 목표의 반복 매출 구조 구축으로 하드웨어+소프트웨어 통합 플랫폼 경쟁력 보유"
+    ],
+    "flnc_weaknesses": [
+      "GAAP 기준 지속적 순손실 (H1 FY2026 누적 순손실 약 $91.8M) 및 낮은 총이익률(약 10%), 일부 프로젝트 원가 초과 리스크로 마진 변동성 존재",
+      "매출 구조가 대형 프로젝트 단기 인식에 집중되어 분기별 매출 편차 극심 (Q1 FY2026 +154% vs Q2 +7.7%), 시가총액 대비 부채 및 운전자본 부담으로 자금 조달 리스크 상존"
+    ],
+    "market_position": "FLNC은 글로벌 대규모 배터리 에너지저장시스템(BESS) EPC+소프트웨어 시장의 매출 기준 리더이나, 수익성 측면에서는 아직 손익분기점 도달 과정에 있음. Bloom Energy(BE)가 AI 데이터센터 전력 수요 폭발로 고성장·고마진 프로파일을 앞세워 가장 강력한 모멘텀을 보이는 반면, FLNC은 대규모 수주잔고($5.6B)를 기반으로 FY2026 매출 50% 성장을 목표로 하며 그 뒤를 추격하는 구도. STEM은 소프트웨어 전환 중이나 규모가 크게 축소되었고, ENPH은 주거용 태양광 수요 둔화로 매출 역성장 중.",
+    "winner_by_category": {
+      "growth": "BE (Bloom Energy) — Q1 2026 매출 YoY +130.4%, FY2026 가이던스 약 +80% YoY로 4개 종목 중 압도적 성장률 1위",
+      "margin": "ENPH (Enphase Energy) — Non-GAAP 총이익률 약 43.9%로 최상위; BE도 Non-GAAP 34% 목표로 2위",
+      "valuation": "FLNC (Fluence Energy) — EV/Revenue 약 0.4~0.6x로 4개 종목 중 가장 저렴한 밸류에이션 (높은 매출 대비 낮은 시총)",
+      "momentum": "BE (Bloom Energy) — 매출 +130% 어닝 서프라이즈, FY2026 가이던스 상향, Oracle 2.8GW 계약 등 복합 모멘텀 독보적 1위"
+    },
+    "summary": "2026년 에너지 스토리지·청정에너지 섹터는 AI 데이터센터 전력 수요라는 메가트렌드가 BE와 FLNC의 성장을 동시에 견인하고 있으나, Bloom Energy가 고마진·흑자 전환·폭발적 성장률 3박자를 갖추며 명확한 선두로 부상하고 있다. FLNC은 사상 최대 수주잔고($5.6B)와 하이퍼스케일러 계약으로 FY2026 50% 성장 가시성을 확보한 밸류에이션 매력주이지만, 마진 개선 속도가 주가 재평가의 핵심 변수로 남아 있다."
+  },
+  "macro": {
+    "fed_rate": "3.50%~3.75% (2026년 4월 29일 FOMC 동결 결정)",
+    "fed_outlook": "neutral",
+    "rate_impact_on_flnc": "현재 금리 3.5~3.75%는 ESS 프로젝트 파이낸싱 비용을 압박하며 FLNC의 수주 프로젝트 IRR을 저하시킴. 다만 JP모건은 2026년 연내 동결 후 2027년 Q3 소폭 인상(25bp) 가능성을 제시, 추가 금리인하 기대감 약화는 FLNC의 장기 계약 마진에 부정적. 금리인하 시 프로젝트 자금조달 개선으로 수주 가속화 기대 가능하나 현재로선 불확실성 지속.",
+    "treasury_10y": "4.45% (2026년 5월 29일 기준, 5월 20일 고점 4.7% 대비 소폭 하락)",
+    "ira_status": "IRA 상업용 독립형 에너지저장 ITC(30%) 2032년까지 유효. 단, 'One Big Beautiful Bill Act(OBBBA)' 통과로 FEOC(외국우려기관) 규정 강화, 국내 콘텐츠 요건 상향(2026년 50%), 직접지불 시 국내 콘텐츠 미충족 시 100% 크레딧 손실. 주거용 배터리 세액공제는 2025년 말 만료.",
+    "ira_impact": "상업용 독립형 ESS 30% ITC 유지로 FLNC의 대형 유틸리티 프로젝트 수익성에 긍정적. 그러나 FEOC 규정 및 국내 콘텐츠 요건 강화로 중국산 배터리 의존도 높은 프로젝트는 세액공제 리스크 발생. FLNC가 국내/우호국 공급망을 확보할수록 경쟁 우위 상승.",
+    "tariff_status": "중국산 ESS 배터리(LFP셀) 누적 관세: 2026년 기준 최대 82.4% (기본관세 3.4% + Section 301 25% + 상호관세 34% + 기존 20% 등 복합 적용). 배터리 음극재(흑연계) 추가 반덤핑·상계관세 160%+ 예정(2026년 3월 ITC 최종 결정). 미중 90일 관세 유예 이후 일부 조정 가능하나 기조적 고관세 유지.",
+    "tariff_impact": "미국 ESS 시장의 90% 이상을 차지하던 중국산 LFP셀 가격이 ~$100/kWh 이상으로 상승(2024년 $60~70/kWh 대비 급등). FLNC의 배터리 조달 원가 상승 압력이 크며, 비중국산 공급망 확보 또는 국내 조달 전환 속도가 핵심 리스크. 단기적으로는 원가 상승→마진 압박, 중장기적으로는 비중국 공급망 구축 시 경쟁우위 가능.",
+    "policy_tailwinds": [
+      "IRA 상업용 독립형 ESS ITC 30% 세액공제 2032년까지 유효 → 대형 유틸리티 프로젝트 경제성 지지",
+      "중동 에너지 위기·AI 데이터센터 급증에 따른 전력 수요 폭증 → ESS 수요 구조적 증가",
+      "Section 301 고관세로 중국산 경쟁 배터리 가격 경쟁력 약화 → 비중국 ESS 공급사 반사 수혜 가능",
+      "미국 국내 배터리 제조 육성 정책 지속 → FLNC 공급망 다변화 기회"
+    ],
+    "policy_headwinds": [
+      "OBBBA의 FEOC 규정·국내 콘텐츠 요건 강화 → ITC 수혜 조건 충족 난이도 상승, 행정 부담 증가",
+      "Fed 고금리 장기화(3.5~3.75%, 10년물 4.45%) → ESS 프로젝트 파이낸싱 비용 상승 및 수주 속도 저하",
+      "중국산 배터리 고관세로 인한 원자재 및 셀 조달 원가 급등 → 단기 프로젝트 마진 압박",
+      "OBBBA 세액공제 조기 종료·조건 강화로 2029년 이후 ESS 설치량 급감 전망(BNEF)"
+    ],
+    "energy_demand_outlook": "AI·데이터센터 투자 급증(AI 캐팩스 급등이 국채 금리 상승 요인으로도 지목)과 전기화 가속으로 전력 수요가 구조적 상승 국면. 중동 에너지 위기로 인한 유가·전기요금 변동성 확대가 ESS 경제성을 추가 지지. 그리드 안정화·피크 수요 대응 목적의 대형 유틸리티 ESS 수요는 중장기적으로 강한 성장세 유지 전망.",
+    "macro_score": -1,
+    "macro_summary": "IRA ITC 30% 유지와 AI·데이터센터 발 전력수요 급증이라는 강력한 구조적 순풍에도 불구하고, 고금리 장기화(FFR 3.5~3.75%, 10년물 4.45%)와 중국산 배터리 82%대 고관세로 인한 원가 압박이 단기 실적에 상당한 역풍으로 작용한다. OBBBA의 세액공제 조건 강화와 FEOC 규정 리스크가 추가적인 불확실성을 더하며, 전반적인 매크로 환경은 기회와 리스크가 혼재하는 '중립 이하' 국면으로 평가된다."
+  }
+}

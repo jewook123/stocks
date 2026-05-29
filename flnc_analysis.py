@@ -3,8 +3,13 @@ FLNC (Fluence Energy) 종합 주식 분석
 - 3일간 뉴스 수집 및 감성 분석 (Claude + Web Search)
 - SEC 공시 체크
 - ESS 관련주 동향 분석
+- 어닝 콜 발언 및 CEO 톤 분석
+- Short Interest / 옵션 Put/Call Ratio
+- 기관 투자자 13F 포지션 변동
+- 경쟁사 비교 분석 (FLNC vs BE vs STEM vs ENPH)
+- 매크로 지표 (금리, 에너지 정책, 관세)
 
-실행: python3 flnc_analysis.py
+실행: python3 flnc_analysis.py [--telegram]
 """
 
 import os
@@ -375,6 +380,232 @@ JSON만 응답하세요."""
     return {"stocks": all_stocks, **sector_data}
 
 
+# ── 4. 어닝 콜 발언 분석 ──────────────────────────────────────────────────────
+def analyze_earnings_call() -> dict:
+    """최근 어닝 콜 하이라이트와 CEO/CFO 톤을 분석합니다."""
+    today = datetime.now().strftime("%Y년 %m월 %d일")
+    prompt = f"""오늘은 {today}입니다.
+
+Fluence Energy (FLNC) 최근 어닝 콜(실적 발표 컨퍼런스 콜)을 검색해주세요.
+- "Fluence Energy earnings call transcript 2026"
+- "FLNC Q2 2026 conference call"
+- "Fluence Energy CEO CFO guidance"
+
+아래 JSON으로 응답하세요:
+
+{{
+  "call_date": "어닝 콜 날짜",
+  "quarter": "Q2 FY2026 등",
+  "ceo_tone": "Confident|Cautious|Mixed",
+  "tone_score": -5에서 5 사이 정수 (긍정=양수),
+  "key_statements": [
+    {{"speaker": "CEO/CFO", "quote": "핵심 발언", "implication": "투자자 시사점"}}
+  ],
+  "guidance_change": "raised|maintained|lowered|withdrawn",
+  "guidance_details": "가이던스 구체 내용",
+  "analyst_qa_highlights": ["애널리스트 Q&A 주요 내용1", "주요 내용2"],
+  "management_credibility": "High|Medium|Low",
+  "credibility_reason": "신뢰도 판단 근거",
+  "red_flags": ["우려 신호1", "우려 신호2"],
+  "positive_signals": ["긍정 신호1", "긍정 신호2"]
+}}
+
+JSON만 응답하세요."""
+
+    raw = call_claude_with_search(prompt, max_tokens=3000)
+    start, end = raw.find("{"), raw.rfind("}") + 1
+    if start >= 0 and end > start:
+        try:
+            return json.loads(raw[start:end])
+        except json.JSONDecodeError:
+            pass
+    return {"ceo_tone": "N/A", "tone_score": 0, "key_statements": [],
+            "guidance_change": "N/A", "red_flags": [], "positive_signals": [], "_raw": raw[:300]}
+
+
+# ── 5. Short Interest / 옵션 Put/Call Ratio ────────────────────────────────────
+def analyze_short_sentiment() -> dict:
+    """공매도 잔고와 옵션 시장 심리를 분석합니다."""
+    today = datetime.now().strftime("%Y년 %m월 %d일")
+    prompt = f"""오늘은 {today}입니다.
+
+FLNC (Fluence Energy) 공매도 및 옵션 데이터를 검색해주세요:
+- "FLNC short interest 2026"
+- "FLNC put call ratio options"
+- "Fluence Energy short squeeze"
+
+아래 JSON으로 응답하세요:
+
+{{
+  "short_interest_pct": "유동주식 대비 공매도 비율 (%)",
+  "short_interest_shares": "공매도 주식 수",
+  "days_to_cover": "숏커버 소요일 (Days to Cover)",
+  "short_change": "전월 대비 증감",
+  "short_trend": "increasing|decreasing|stable",
+  "short_squeeze_risk": "High|Medium|Low",
+  "put_call_ratio": "Put/Call 비율",
+  "options_sentiment": "Bullish|Bearish|Neutral",
+  "iv_rank": "IV Rank (내재변동성 순위, 0-100)",
+  "notable_options": "주목할 옵션 포지션 (대규모 콜/풋 등)",
+  "insider_trading": [
+    {{"date": "날짜", "person": "직책", "type": "buy|sell", "shares": "주식수", "value": "금액"}}
+  ],
+  "summary": "공매도/옵션 시장 심리 종합 요약"
+}}
+
+JSON만 응답하세요."""
+
+    raw = call_claude_with_search(prompt, max_tokens=2500)
+    start, end = raw.find("{"), raw.rfind("}") + 1
+    if start >= 0 and end > start:
+        try:
+            return json.loads(raw[start:end])
+        except json.JSONDecodeError:
+            pass
+    return {"short_interest_pct": "N/A", "put_call_ratio": "N/A",
+            "options_sentiment": "N/A", "summary": raw[:300]}
+
+
+# ── 6. 기관 투자자 13F 포지션 변동 ────────────────────────────────────────────
+def analyze_institutional() -> dict:
+    """13F 기관 투자자 포지션 변동을 분석합니다."""
+    today = datetime.now().strftime("%Y년 %m월 %d일")
+    prompt = f"""오늘은 {today}입니다.
+
+FLNC (Fluence Energy) 기관 투자자 동향을 검색해주세요:
+- "FLNC institutional ownership 13F 2026"
+- "Fluence Energy hedge fund holdings"
+- "FLNC institutional investors"
+
+아래 JSON으로 응답하세요:
+
+{{
+  "institutional_ownership_pct": "기관 보유 비율 (%)",
+  "total_institutional_shares": "기관 총 보유 주식",
+  "top_holders": [
+    {{"name": "기관명", "shares": "보유주식", "pct": "비율", "change": "전분기 대비 변동", "action": "increased|decreased|new|closed"}}
+  ],
+  "notable_changes": [
+    {{"institution": "기관명", "action": "매수/매도/신규/청산", "shares": "주식수", "significance": "시사점"}}
+  ],
+  "smart_money_trend": "Accumulating|Distributing|Neutral",
+  "hedge_fund_count": "보유 헤지펀드 수",
+  "qia_status": "카타르 국부펀드 현황",
+  "aes_status": "AES 지분 현황",
+  "summary": "기관 투자자 동향 종합 (2문장)"
+}}
+
+JSON만 응답하세요."""
+
+    raw = call_claude_with_search(prompt, max_tokens=3000)
+    start, end = raw.find("{"), raw.rfind("}") + 1
+    if start >= 0 and end > start:
+        try:
+            return json.loads(raw[start:end])
+        except json.JSONDecodeError:
+            pass
+    return {"institutional_ownership_pct": "N/A", "smart_money_trend": "N/A",
+            "top_holders": [], "notable_changes": [], "summary": raw[:300]}
+
+
+# ── 7. 경쟁사 비교 분석 ────────────────────────────────────────────────────────
+def analyze_competitors() -> dict:
+    """FLNC vs 주요 경쟁사 실적·밸류에이션을 비교합니다."""
+    today = datetime.now().strftime("%Y년 %m월 %d일")
+    prompt = f"""오늘은 {today}입니다.
+
+Fluence Energy (FLNC)와 주요 경쟁사를 비교 분석해주세요.
+검색: "Fluence Energy vs Stem vs Bloom Energy comparison 2026"
+
+비교 대상: FLNC, BE (Bloom Energy), STEM (Stem Inc), ENPH (Enphase Energy)
+
+아래 JSON으로 응답하세요:
+
+{{
+  "comparison": [
+    {{
+      "ticker": "종목코드",
+      "company": "회사명",
+      "revenue_ttm": "최근 12개월 매출",
+      "revenue_growth_yoy": "매출 성장률 YoY",
+      "gross_margin": "총이익률 (%)",
+      "ebitda_margin": "EBITDA 마진 (%)",
+      "backlog": "수주잔고 (해당시)",
+      "ev_revenue": "EV/Revenue 배수",
+      "market_cap": "시가총액",
+      "net_cash": "순현금 (부채 차감)",
+      "profitability": "Profitable|Near-break-even|Loss-making",
+      "competitive_edge": "핵심 경쟁 우위"
+    }}
+  ],
+  "flnc_strengths": ["FLNC 강점1", "FLNC 강점2"],
+  "flnc_weaknesses": ["FLNC 약점1", "FLNC 약점2"],
+  "market_position": "FLNC의 시장 내 위치",
+  "winner_by_category": {{
+    "growth": "성장률 1위 종목",
+    "margin": "마진 1위 종목",
+    "valuation": "밸류에이션 가장 저렴한 종목",
+    "momentum": "모멘텀 1위 종목"
+  }},
+  "summary": "경쟁 구도 종합 요약 (2문장)"
+}}
+
+JSON만 응답하세요."""
+
+    raw = call_claude_with_search(prompt, max_tokens=3500)
+    start, end = raw.find("{"), raw.rfind("}") + 1
+    if start >= 0 and end > start:
+        try:
+            return json.loads(raw[start:end])
+        except json.JSONDecodeError:
+            pass
+    return {"comparison": [], "flnc_strengths": [], "flnc_weaknesses": [],
+            "market_position": "N/A", "summary": raw[:300]}
+
+
+# ── 8. 매크로 지표 분석 ────────────────────────────────────────────────────────
+def analyze_macro() -> dict:
+    """금리, 에너지 정책, 관세 등 매크로 환경을 분석합니다."""
+    today = datetime.now().strftime("%Y년 %m월 %d일")
+    prompt = f"""오늘은 {today}입니다.
+
+ESS/청정에너지 섹터에 영향을 미치는 매크로 지표를 검색해주세요:
+- "Fed interest rate 2026 energy storage"
+- "IRA Inflation Reduction Act energy storage 2026"
+- "US tariff China battery ESS 2026"
+- "10 year treasury yield 2026"
+
+아래 JSON으로 응답하세요:
+
+{{
+  "fed_rate": "현재 연준 기준금리",
+  "fed_outlook": "금리 방향성 (dovish|hawkish|neutral)",
+  "rate_impact_on_flnc": "금리가 FLNC에 미치는 영향",
+  "treasury_10y": "10년물 국채 수익률",
+  "ira_status": "IRA 에너지 저장 관련 세액공제 현황",
+  "ira_impact": "IRA가 FLNC 수익성에 미치는 영향",
+  "tariff_status": "중국산 배터리/ESS 관세 현황",
+  "tariff_impact": "관세가 FLNC 원가에 미치는 영향",
+  "policy_tailwinds": ["정책 순풍1", "정책 순풍2"],
+  "policy_headwinds": ["정책 역풍1", "정책 역풍2"],
+  "energy_demand_outlook": "데이터센터/AI 전력 수요 전망",
+  "macro_score": -5에서 5 사이 정수 (ESS 섹터에 유리=양수),
+  "macro_summary": "매크로 환경 종합 평가 (2문장)"
+}}
+
+JSON만 응답하세요."""
+
+    raw = call_claude_with_search(prompt, max_tokens=2500)
+    start, end = raw.find("{"), raw.rfind("}") + 1
+    if start >= 0 and end > start:
+        try:
+            return json.loads(raw[start:end])
+        except json.JSONDecodeError:
+            pass
+    return {"fed_rate": "N/A", "macro_score": 0, "policy_tailwinds": [],
+            "policy_headwinds": [], "macro_summary": raw[:300]}
+
+
 # ── 출력 헬퍼 ──────────────────────────────────────────────────────────────────
 def sep(char="=", width=72):
     print(char * width)
@@ -552,13 +783,195 @@ def main() -> dict:
         for r in ess_data["sector_risks"]:
             print(f"    - {r}")
 
+    # ── 섹션 4: 어닝 콜 분석 ──────────────────────────────────────────────────
+    section("4. 어닝 콜 발언 분석")
+    print("  최근 어닝 콜 검색 중...")
+
+    ec = analyze_earnings_call()
+    results["earnings_call"] = ec
+
+    tone_icon = {"Confident": "🟢", "Cautious": "🟡", "Mixed": "🟠"}.get(ec.get("ceo_tone", ""), "⚪")
+    guide_icon = {"raised": "⬆️", "maintained": "➡️", "lowered": "⬇️", "withdrawn": "❌"}.get(ec.get("guidance_change", ""), "❓")
+    print(f"\n  어닝 콜: {ec.get('quarter','N/A')}  ({ec.get('call_date','N/A')})")
+    print(f"  경영진 톤: {tone_icon} {ec.get('ceo_tone','N/A')}  ({ec.get('tone_score',0):+d}/5)  |  가이던스: {guide_icon} {ec.get('guidance_change','N/A').upper()}")
+    if ec.get("guidance_details"):
+        print(f"  가이던스 내용: {ec['guidance_details']}")
+    print(f"  경영진 신뢰도: {ec.get('management_credibility','N/A')}  — {ec.get('credibility_reason','')}")
+
+    if ec.get("key_statements"):
+        subsection("핵심 발언")
+        for s in ec["key_statements"][:4]:
+            print(f"  [{s.get('speaker','')}] \"{s.get('quote','')}\"")
+            if s.get("implication"):
+                print(f"    → {s['implication']}")
+
+    if ec.get("analyst_qa_highlights"):
+        subsection("Q&A 주요 내용")
+        for q in ec["analyst_qa_highlights"][:3]:
+            print(f"    • {q}")
+
+    if ec.get("positive_signals"):
+        print("\n  [긍정 신호]")
+        for s in ec["positive_signals"][:3]:
+            print(f"    ✅ {s}")
+    if ec.get("red_flags"):
+        print("\n  [레드 플래그]")
+        for r in ec["red_flags"][:3]:
+            print(f"    🚩 {r}")
+
+    # ── 섹션 5: Short Interest / 옵션 ────────────────────────────────────────
+    section("5. Short Interest / 옵션 Put/Call Ratio")
+    print("  공매도·옵션 데이터 검색 중...")
+
+    short_data = analyze_short_sentiment()
+    results["short_sentiment"] = short_data
+
+    sq_icon = {"High": "🔥", "Medium": "🟡", "Low": "🟢"}.get(short_data.get("short_squeeze_risk", ""), "⚪")
+    opt_icon = {"Bullish": "🟢", "Bearish": "🔴", "Neutral": "🟡"}.get(short_data.get("options_sentiment", ""), "⚪")
+    print(f"\n  공매도 비율:   {short_data.get('short_interest_pct','N/A')}  ({short_data.get('short_change','N/A')})")
+    print(f"  Days to Cover: {short_data.get('days_to_cover','N/A')}  |  추세: {short_data.get('short_trend','N/A')}")
+    print(f"  숏스퀴즈 위험: {sq_icon} {short_data.get('short_squeeze_risk','N/A')}")
+    print(f"  Put/Call:      {short_data.get('put_call_ratio','N/A')}  |  옵션 심리: {opt_icon} {short_data.get('options_sentiment','N/A')}")
+    if short_data.get("iv_rank"):
+        print(f"  IV Rank:       {short_data['iv_rank']}")
+    if short_data.get("notable_options"):
+        print(f"  주목 옵션:     {short_data['notable_options']}")
+    if short_data.get("summary"):
+        print(f"\n  [요약] {short_data['summary']}")
+
+    insider = short_data.get("insider_trading", [])
+    if insider:
+        subsection("내부자 거래 (Form 4)")
+        for t in insider[:5]:
+            act = "매수 ✅" if t.get("type") == "buy" else "매도 ❌"
+            print(f"    [{t.get('date','')}] {t.get('person','')}  {act}  {t.get('shares','')}주  ({t.get('value','')})")
+
+    # ── 섹션 6: 기관 투자자 13F ───────────────────────────────────────────────
+    section("6. 기관 투자자 13F 포지션 변동")
+    print("  기관 투자자 데이터 검색 중...")
+
+    inst_data = analyze_institutional()
+    results["institutional"] = inst_data
+
+    sm_icon = {"Accumulating": "🟢", "Distributing": "🔴", "Neutral": "🟡"}.get(inst_data.get("smart_money_trend", ""), "⚪")
+    print(f"\n  기관 보유 비율: {inst_data.get('institutional_ownership_pct','N/A')}")
+    print(f"  스마트머니 동향: {sm_icon} {inst_data.get('smart_money_trend','N/A')}")
+    print(f"  보유 헤지펀드: {inst_data.get('hedge_fund_count','N/A')}")
+    if inst_data.get("qia_status"):
+        print(f"  카타르 국부펀드(QIA): {inst_data['qia_status']}")
+    if inst_data.get("aes_status"):
+        print(f"  AES 지분: {inst_data['aes_status']}")
+
+    top_holders = inst_data.get("top_holders", [])
+    if top_holders:
+        subsection("주요 기관 보유 현황")
+        print(f"  {'기관명':<30} {'보유비율':>8} {'전분기 대비':>12}  동향")
+        print(f"  {'─'*30} {'─'*8} {'─'*12}  {'─'*8}")
+        for h in top_holders[:8]:
+            act_icon = {"increased": "▲", "decreased": "▼", "new": "★", "closed": "✕"}.get(h.get("action", ""), "─")
+            print(f"  {h.get('name',''):<30} {h.get('pct',''):>8} {h.get('change',''):>12}  {act_icon}")
+
+    if inst_data.get("notable_changes"):
+        subsection("주목할 포지션 변동")
+        for c in inst_data["notable_changes"][:4]:
+            print(f"  • {c.get('institution','')}  {c.get('action','')}  {c.get('shares','')}")
+            if c.get("significance"):
+                print(f"    → {c['significance']}")
+
+    if inst_data.get("summary"):
+        print(f"\n  [요약] {inst_data['summary']}")
+
+    # ── 섹션 7: 경쟁사 비교 ───────────────────────────────────────────────────
+    section("7. 경쟁사 비교 분석 (FLNC vs BE vs STEM vs ENPH)")
+    print("  경쟁사 데이터 검색 중...")
+
+    comp_data = analyze_competitors()
+    results["competitors"] = comp_data
+
+    comparison = comp_data.get("comparison", [])
+    if comparison:
+        subsection("실적·밸류에이션 비교")
+        print(f"  {'종목':<6} {'매출(TTM)':>10} {'성장률':>8} {'총이익률':>8} {'EV/Rev':>7} {'시가총액':>10}  수익성")
+        print(f"  {'─'*6} {'─'*10} {'─'*8} {'─'*8} {'─'*7} {'─'*10}  {'─'*14}")
+        for c in comparison:
+            prof_icon = {"Profitable": "✅", "Near-break-even": "🟡", "Loss-making": "❌"}.get(c.get("profitability", ""), "⚪")
+            star = "★" if c.get("ticker") == "FLNC" else " "
+            print(
+                f"  {star}{c.get('ticker',''):<5} {c.get('revenue_ttm','N/A'):>10} "
+                f"{c.get('revenue_growth_yoy','N/A'):>8} {c.get('gross_margin','N/A'):>8} "
+                f"{c.get('ev_revenue','N/A'):>7} {c.get('market_cap','N/A'):>10}  {prof_icon}"
+            )
+
+    wbc = comp_data.get("winner_by_category", {})
+    if wbc:
+        subsection("카테고리별 1위")
+        for cat, winner in wbc.items():
+            label = {"growth": "성장률", "margin": "마진", "valuation": "밸류에이션", "momentum": "모멘텀"}.get(cat, cat)
+            print(f"    {label:<10}: {winner}")
+
+    if comp_data.get("flnc_strengths"):
+        print("\n  [FLNC 강점]")
+        for s in comp_data["flnc_strengths"]:
+            print(f"    ✅ {s}")
+    if comp_data.get("flnc_weaknesses"):
+        print("\n  [FLNC 약점]")
+        for w in comp_data["flnc_weaknesses"]:
+            print(f"    ⚠️  {w}")
+    if comp_data.get("market_position"):
+        print(f"\n  [시장 위치] {comp_data['market_position']}")
+
+    # ── 섹션 8: 매크로 지표 ───────────────────────────────────────────────────
+    section("8. 매크로 지표 (금리 / 정책 / 관세)")
+    print("  매크로 데이터 검색 중...")
+
+    macro = analyze_macro()
+    results["macro"] = macro
+
+    macro_score = macro.get("macro_score", 0)
+    macro_bar = "█" * abs(macro_score) + "░" * (5 - abs(macro_score))
+    macro_dir = "+" if macro_score >= 0 else "-"
+    fed_icon = {"dovish": "🕊️ ", "hawkish": "🦅", "neutral": "➡️"}.get(macro.get("fed_outlook", ""), "❓")
+
+    print(f"\n  매크로 점수: [{macro_dir}{macro_bar}] ({macro_score:+d}/5)  — ESS 섹터에 {'유리' if macro_score >= 0 else '불리'}")
+    print(f"  연준 기준금리: {macro.get('fed_rate','N/A')}  |  방향: {fed_icon} {macro.get('fed_outlook','N/A')}")
+    print(f"  10년물 금리:   {macro.get('treasury_10y','N/A')}")
+    print(f"  금리 영향:     {macro.get('rate_impact_on_flnc','N/A')}")
+
+    subsection("IRA 세액공제 현황")
+    print(f"  {macro.get('ira_status','N/A')}")
+    if macro.get("ira_impact"):
+        print(f"  FLNC 영향: {macro['ira_impact']}")
+
+    subsection("관세 환경")
+    print(f"  {macro.get('tariff_status','N/A')}")
+    if macro.get("tariff_impact"):
+        print(f"  FLNC 영향: {macro['tariff_impact']}")
+
+    if macro.get("policy_tailwinds"):
+        print("\n  [정책 순풍]")
+        for t in macro["policy_tailwinds"]:
+            print(f"    🌬️  {t}")
+    if macro.get("policy_headwinds"):
+        print("\n  [정책 역풍]")
+        for h in macro["policy_headwinds"]:
+            print(f"    ⛔ {h}")
+    if macro.get("energy_demand_outlook"):
+        print(f"\n  [AI/데이터센터 전력 수요] {macro['energy_demand_outlook']}")
+    if macro.get("macro_summary"):
+        print(f"\n  [종합] {macro['macro_summary']}")
+
     # ── 최종 요약 ──────────────────────────────────────────────────────────────
     section("★ 종합 요약")
     total_news = len(news_items)
+    macro_score = macro.get("macro_score", 0)
     print(f"""
   📰 뉴스 감성:   {overall}  ({score:+d}/10)  |  총 {total_news}건 (긍정 {pos} / 부정 {neg} / 중립 {neu})
+  🎙️  어닝 콜 톤:  {ec.get('ceo_tone','N/A')}  ({ec.get('tone_score',0):+d}/5)  |  가이던스: {ec.get('guidance_change','N/A').upper()}
+  📉 공매도:      {short_data.get('short_interest_pct','N/A')}  |  숏스퀴즈: {short_data.get('short_squeeze_risk','N/A')}  |  P/C Ratio: {short_data.get('put_call_ratio','N/A')}
+  🏛️  스마트머니:  {inst_data.get('smart_money_trend','N/A')}  |  기관보유: {inst_data.get('institutional_ownership_pct','N/A')}
   📋 SEC 공시:    최근 {total}건
   📈 ESS 섹터:    {sector_trend}  |  추적 종목 {len(stocks)}개
+  🌍 매크로:      {macro_score:+d}/5  |  연준: {macro.get('fed_rate','N/A')}  |  10Y: {macro.get('treasury_10y','N/A')}
     """)
 
     if sentiment.get("investor_summary"):
@@ -697,7 +1110,6 @@ def send_telegram(results: dict):
         trend_emoji = {
             "상승세": "📈", "하락세": "📉", "혼조세": "📊", "횡보": "➡️"
         }.get(sector_trend, "📊")
-
         lines = [f"{trend_emoji} <b>ESS 관련주 동향 — {sector_trend}</b>\n"]
         lines.append(f"{'티커':<6} {'현재가':>8} {'1일':>7} {'1개월':>8}  동향")
         lines.append("─" * 40)
@@ -711,14 +1123,123 @@ def send_telegram(results: dict):
                 f"{star}{s.get('ticker',''):<5} {s.get('current_price',''):>8} "
                 f"{s.get('change_1d',''):>7} {s.get('change_1m',''):>8}  {trend_icon}"
             )
-
         outlook = ess_data.get("investment_outlook", "")[:300]
         if outlook:
             lines.append(f"\n<b>💡 투자 전망</b>\n{outlook}")
-
         send("<pre>" + "\n".join(lines) + "</pre>")
+        time.sleep(0.5)
 
-    print("  [Telegram] 전송 완료")
+    # ── 메시지 5: 어닝 콜 + Short Interest ───────────────────────────────────
+    ec = results.get("earnings_call", {})
+    short_data = results.get("short_sentiment", {})
+    tone_icon = {"Confident": "🟢", "Cautious": "🟡", "Mixed": "🟠"}.get(ec.get("ceo_tone", ""), "⚪")
+    guide_icon = {"raised": "⬆️", "maintained": "➡️", "lowered": "⬇️"}.get(ec.get("guidance_change", ""), "❓")
+    sq_icon = {"High": "🔥", "Medium": "🟡", "Low": "🟢"}.get(short_data.get("short_squeeze_risk", ""), "⚪")
+    opt_icon = {"Bullish": "🟢", "Bearish": "🔴", "Neutral": "🟡"}.get(short_data.get("options_sentiment", ""), "⚪")
+
+    lines = [f"🎙️ <b>어닝 콜 분석 — {ec.get('quarter','N/A')}</b>\n"]
+    lines.append(f"{tone_icon} 경영진 톤: <b>{ec.get('ceo_tone','N/A')}</b> ({ec.get('tone_score',0):+d}/5)")
+    lines.append(f"{guide_icon} 가이던스: <b>{ec.get('guidance_change','N/A').upper()}</b>")
+    if ec.get("guidance_details"):
+        lines.append(f"  {ec['guidance_details'][:100]}")
+    if ec.get("positive_signals"):
+        lines.append("\n✅ <b>긍정 신호</b>")
+        for s in ec["positive_signals"][:2]:
+            lines.append(f"  • {s}")
+    if ec.get("red_flags"):
+        lines.append("\n🚩 <b>레드 플래그</b>")
+        for r in ec["red_flags"][:2]:
+            lines.append(f"  • {r}")
+
+    lines.append(f"\n📉 <b>Short Interest / 옵션</b>")
+    lines.append(f"공매도: {short_data.get('short_interest_pct','N/A')}  |  DTC: {short_data.get('days_to_cover','N/A')}일")
+    lines.append(f"숏스퀴즈: {sq_icon} {short_data.get('short_squeeze_risk','N/A')}  |  추세: {short_data.get('short_trend','N/A')}")
+    lines.append(f"Put/Call: {short_data.get('put_call_ratio','N/A')}  |  옵션심리: {opt_icon} {short_data.get('options_sentiment','N/A')}")
+    if short_data.get("notable_options"):
+        lines.append(f"주목 옵션: {short_data['notable_options'][:80]}")
+    send("\n".join(lines))
+    time.sleep(0.5)
+
+    # ── 메시지 6: 기관 투자자 13F ────────────────────────────────────────────
+    inst_data = results.get("institutional", {})
+    sm_icon = {"Accumulating": "🟢", "Distributing": "🔴", "Neutral": "🟡"}.get(inst_data.get("smart_money_trend", ""), "⚪")
+    lines = [f"🏛️ <b>기관 투자자 13F 현황</b>\n"]
+    lines.append(f"기관 보유: <b>{inst_data.get('institutional_ownership_pct','N/A')}</b>  |  헤지펀드: {inst_data.get('hedge_fund_count','N/A')}")
+    lines.append(f"스마트머니: {sm_icon} <b>{inst_data.get('smart_money_trend','N/A')}</b>")
+    if inst_data.get("qia_status"):
+        lines.append(f"🇶🇦 QIA: {inst_data['qia_status'][:80]}")
+    if inst_data.get("aes_status"):
+        lines.append(f"⚡ AES: {inst_data['aes_status'][:80]}")
+    top_h = inst_data.get("top_holders", [])
+    if top_h:
+        lines.append("\n<b>주요 보유 기관</b>")
+        for h in top_h[:5]:
+            act = {"increased": "▲", "decreased": "▼", "new": "★", "closed": "✕"}.get(h.get("action", ""), "─")
+            lines.append(f"  {act} {h.get('name','')[:25]}  {h.get('pct','')}")
+    if inst_data.get("notable_changes"):
+        lines.append("\n<b>주목할 변동</b>")
+        for c in inst_data["notable_changes"][:3]:
+            lines.append(f"  • {c.get('institution','')} {c.get('action','')} {c.get('shares','')}")
+    if inst_data.get("summary"):
+        lines.append(f"\n{inst_data['summary'][:200]}")
+    send("\n".join(lines))
+    time.sleep(0.5)
+
+    # ── 메시지 7: 경쟁사 비교 ────────────────────────────────────────────────
+    comp_data = results.get("competitors", {})
+    comparison = comp_data.get("comparison", [])
+    lines = ["⚔️ <b>경쟁사 비교 분석</b>\n"]
+    if comparison:
+        lines.append("<pre>")
+        lines.append(f"{'종목':<6} {'매출성장':>8} {'총이익률':>8} {'EV/Rev':>7}  수익성")
+        lines.append("─" * 42)
+        for c in comparison:
+            prof = {"Profitable": "흑자", "Near-break-even": "손익분기", "Loss-making": "적자"}.get(c.get("profitability", ""), "N/A")
+            star = "⭐" if c.get("ticker") == "FLNC" else "  "
+            lines.append(
+                f"{star}{c.get('ticker',''):<5} {c.get('revenue_growth_yoy','N/A'):>8} "
+                f"{c.get('gross_margin','N/A'):>8} {c.get('ev_revenue','N/A'):>7}  {prof}"
+            )
+        lines.append("</pre>")
+    wbc = comp_data.get("winner_by_category", {})
+    if wbc:
+        lines.append("<b>카테고리별 1위</b>")
+        for cat, winner in wbc.items():
+            label = {"growth": "성장률", "margin": "마진", "valuation": "밸류", "momentum": "모멘텀"}.get(cat, cat)
+            lines.append(f"  {label}: {winner}")
+    if comp_data.get("market_position"):
+        lines.append(f"\n{comp_data['market_position'][:150]}")
+    send("\n".join(lines))
+    time.sleep(0.5)
+
+    # ── 메시지 8: 매크로 지표 ────────────────────────────────────────────────
+    macro = results.get("macro", {})
+    macro_score = macro.get("macro_score", 0)
+    macro_bar = "█" * abs(macro_score) + "░" * (5 - abs(macro_score))
+    macro_dir = "+" if macro_score >= 0 else "-"
+    fed_icon = {"dovish": "🕊️", "hawkish": "🦅", "neutral": "➡️"}.get(macro.get("fed_outlook", ""), "❓")
+
+    lines = [f"🌍 <b>매크로 지표</b>  [{macro_dir}{macro_bar}] ({macro_score:+d}/5)\n"]
+    lines.append(f"🏦 연준금리: <b>{macro.get('fed_rate','N/A')}</b>  {fed_icon} {macro.get('fed_outlook','N/A')}")
+    lines.append(f"📊 10년물:   {macro.get('treasury_10y','N/A')}")
+    lines.append(f"💸 금리 영향: {macro.get('rate_impact_on_flnc','N/A')[:80]}")
+    lines.append(f"\n📋 IRA: {macro.get('ira_status','N/A')[:100]}")
+    lines.append(f"🚢 관세: {macro.get('tariff_status','N/A')[:100]}")
+    if macro.get("policy_tailwinds"):
+        lines.append("\n🌬️ <b>정책 순풍</b>")
+        for t in macro["policy_tailwinds"][:2]:
+            lines.append(f"  • {t}")
+    if macro.get("policy_headwinds"):
+        lines.append("\n⛔ <b>정책 역풍</b>")
+        for h in macro["policy_headwinds"][:2]:
+            lines.append(f"  • {h}")
+    if macro.get("energy_demand_outlook"):
+        lines.append(f"\n⚡ AI 전력 수요: {macro['energy_demand_outlook'][:120]}")
+    if macro.get("macro_summary"):
+        lines.append(f"\n{macro['macro_summary'][:200]}")
+    send("\n".join(lines))
+
+    print("  [Telegram] 전송 완료 (총 8개 메시지)")
 
 
 if __name__ == "__main__":
