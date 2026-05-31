@@ -535,7 +535,6 @@ def main() -> dict:
     results = {"generated_at": now}
 
     # ── 1. 뉴스 감성 ──────────────────────────────────────────────────────────
-    from datetime import datetime, timedelta
     date_from = (datetime.now() - timedelta(days=DAYS_BACK)).strftime("%Y-%m-%d")
     date_to   = datetime.now().strftime("%Y-%m-%d")
     section(f"1. 뉴스 감성 분석 ({date_from} ~ {date_to}, 최근 {DAYS_BACK}일) — FinBERT / VADER")
