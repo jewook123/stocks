@@ -748,13 +748,32 @@ def send_telegram(results: dict):
     s_emoji = "🟢" if score >= 3 else "🔴" if score <= -3 else "🟡"
     now_str = results.get("generated_at", "")
 
+    total_news = pos + neg + neu or 1
+    pos_bars = round(pos / total_news * 10)
+    neg_bars = round(neg / total_news * 10)
+    neu_bars = 10 - pos_bars - neg_bars
+    sentiment_bar = "🟢" * pos_bars + "🔴" * neg_bars + "⬜" * neu_bars
+
+    if score >= 7:
+        score_label = "강한 긍정 신호"
+    elif score >= 3:
+        score_label = "긍정 우세"
+    elif score <= -7:
+        score_label = "강한 부정 신호"
+    elif score <= -3:
+        score_label = "부정 우세"
+    else:
+        score_label = "중립 (뚜렷한 방향성 없음)"
+
     send(
         f"📊 <b>FLNC 무료 주식 분석</b>  <i>(yfinance+{engine})</i>\n"
         f"🗓 {now_str}\n{'─'*30}\n\n"
         f"💹 <b>${p}</b>  {f'{d1:+.2f}%' if d1 is not None else ''} (1일) / {f'{d1m:+.2f}%' if d1m is not None else ''} (1개월)\n"
         f"52주: ${price.get('low_52w','N/A')} ~ ${price.get('high_52w','N/A')}\n\n"
-        f"{s_emoji} <b>감성: {ovr}</b>  ({score:+.1f}/10)\n"
-        f"긍정 {pos}건 | 부정 {neg}건 | 중립 {neu}건\n\n"
+        f"{s_emoji} <b>감성: {ovr}</b>  점수 {score:+.1f}/10\n"
+        f"{sentiment_bar}\n"
+        f"✅ 긍정 {pos}건  ❌ 부정 {neg}건  ─ 중립 {neu}건\n"
+        f"→ {score_label}\n\n"
         f"<b>재무 요약</b>\n"
         f"시총: {fund.get('market_cap','N/A')}  매출: {fund.get('revenue_ttm','N/A')}  성장: {fund.get('revenue_growth','N/A')}\n"
         f"총이익률: {fund.get('gross_margin','N/A')}  EBITDA: {fund.get('ebitda_margin','N/A')}\n"
@@ -766,38 +785,82 @@ def send_telegram(results: dict):
     items = news.get("news_items", [])
     if items:
         lines = [f"📰 <b>최근 뉴스 ({len(items)}건)</b>\n"]
-        for n in items[:8]:
+        for n in items[:10]:
             tag = {"positive": "✅", "negative": "❌", "neutral": "─"}.get(n["sentiment"], "•")
             url = n.get("url", "")
             src = n.get("source", "")
             link = f'<a href="{url}">{src}</a>' if url else src
-            lines.append(f"{tag} [{n['date']}] {n['title'][:65]}\n     {link}  ({n['score']:+.2f})")
+            sent_label = {"positive": "긍정", "negative": "부정", "neutral": "중립"}.get(n["sentiment"], "")
+            lines.append(
+                f"{tag} <b>[{sent_label} {n['score']:+.2f}]</b>  {n['date']}\n"
+                f"    {n['title'][:70]}\n"
+                f"    {link}"
+            )
         send("\n".join(lines))
         time.sleep(0.5)
 
     # ── MSG 3: SEC 공시 ────────────────────────────────────────────────────
+    SEC_FORM_DESC = {
+        "8-K":      "중요 이벤트 (실적·계약·경영진 변경 등)",
+        "10-K":     "연간 보고서",
+        "10-Q":     "분기 보고서",
+        "SC 13D":   "5%↑ 지분 취득 (적극적 의도)",
+        "SC 13G":   "5%↑ 지분 취득 (수동적 의도)",
+        "SC 13D/A": "지분 변동 수정 신고",
+        "SC 13G/A": "지분 변동 수정 신고",
+        "S-3ASR":   "증권 자동 등록 (유상증자 등)",
+        "424B7":    "증권 발행 설명서",
+        "DEF 14A":  "주주총회 위임장",
+        "4":        "내부자 거래 보고",
+        "S-8":      "임직원 주식보상 등록",
+        "NT 10-Q":  "분기 보고서 제출 지연 신고",
+        "NT 10-K":  "연간 보고서 제출 지연 신고",
+    }
     if sec.get("total_count", 0) > 0:
+        filings_list = sec.get("filings", [])
         lines = [f"📋 <b>SEC 공시 ({sec['total_count']}건)</b>\n"]
-        for f in sec.get("filings", [])[:8]:
+        for f in filings_list:
             sig = {"high": "🔴", "medium": "🟡", "low": "🟢"}.get(f["significance"], "⚪")
-            items_str = f"  {f['items']}" if f.get("items") else ""
-            lines.append(f"{sig} <b>{f['form_type']}</b>  {f['date']}{items_str}")
+            desc = SEC_FORM_DESC.get(f["form_type"], "기타 공시")
+            items_str = f"  항목: {f['items']}" if f.get("items") else ""
+            lines.append(f"{sig} <b>{f['form_type']}</b>  {f['date']}  <i>{desc}</i>{items_str}")
         send("\n".join(lines))
         time.sleep(0.5)
 
     # ── MSG 4: 공매도 + 기관 ──────────────────────────────────────────────
-    sq_icon  = {"High": "🔥", "Medium": "🟡", "Low": "🟢"}.get(opts.get("short_squeeze_risk",""), "⚪")
+    sq_risk  = opts.get("short_squeeze_risk", "N/A")
+    sq_icon  = {"High": "🔥", "Medium": "🟡", "Low": "🟢"}.get(sq_risk, "⚪")
     opt_icon = {"Bullish": "🟢", "Bearish": "🔴", "Neutral": "🟡"}.get(opts.get("options_sentiment",""), "⚪")
-    sm_icon  = {"Accumulating": "🟢", "Distributing": "🔴", "Neutral": "🟡"}.get(inst.get("smart_money_trend",""), "⚪")
+    sm_trend = inst.get("smart_money_trend", "N/A")
+    sm_icon  = {"Accumulating": "🟢", "Distributing": "🔴", "Neutral": "🟡"}.get(sm_trend, "⚪")
+
+    short_pct_val = opts.get("short_pct_float", "N/A")
+    dtc_val       = opts.get("days_to_cover", "N/A")
+    if sq_risk == "High":
+        sq_explain = (f"  → 유동주식의 {short_pct_val}가 공매도 포지션\n"
+                      f"     커버(환매)에 {dtc_val}일 소요 → 급등 시 강제 환매(숏스퀴즈) 압력 발생")
+    elif sq_risk == "Medium":
+        sq_explain = f"  → 유동주식의 {short_pct_val}가 공매도 (중간 수준, 모니터링 필요)"
+    else:
+        sq_explain = f"  → 공매도 비율 낮음 ({short_pct_val}), 숏스퀴즈 위험 제한적"
+
+    sm_explain = {
+        "Accumulating": "순매수 → 상승 베팅",
+        "Distributing": "순매도 → 하락 대비 또는 차익실현",
+        "Neutral":       "뚜렷한 방향성 없음",
+    }.get(sm_trend, "")
 
     lines = ["📉 <b>공매도 / 옵션 / 기관</b>\n",
-             f"공매도: {opts.get('short_pct_float','N/A')}  DTC: {opts.get('days_to_cover','N/A')}일",
-             f"숏스퀴즈: {sq_icon} {opts.get('short_squeeze_risk','N/A')}",
-             f"Put/Call: {opts.get('put_call_ratio','N/A')}  옵션심리: {opt_icon} {opts.get('options_sentiment','N/A')}",
-             f"\n🏛️ 스마트머니: {sm_icon} {inst.get('smart_money_trend','N/A')}  기관보유: {inst.get('institutional_pct','N/A')}"]
+             f"공매도: {short_pct_val}  DTC(커버 소요일): {dtc_val}일",
+             f"숏스퀴즈 위험: {sq_icon} <b>{sq_risk}</b>",
+             sq_explain,
+             f"Put/Call 비율: {opts.get('put_call_ratio','N/A')}  옵션심리: {opt_icon} {opts.get('options_sentiment','N/A')}",
+             f"\n🏛️ <b>스마트머니</b>: {sm_icon} {sm_trend}  기관보유: {inst.get('institutional_pct','N/A')}",
+             f"  ※ 스마트머니 = 기관·내부자 등 정보력 있는 투자자들의 매매 방향",
+             f"  현재 동향: {sm_explain}" if sm_explain else ""]
     top_h = inst.get("top_holders", [])
     if top_h:
-        lines.append("\n<b>주요 보유</b>")
+        lines.append("\n<b>주요 기관 보유</b>")
         for h in top_h[:4]:
             lines.append(f"  {h['name'][:28]}  {h['pct']}")
     ins_txn = inst.get("insider_transactions", [])
