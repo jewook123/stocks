@@ -1,5 +1,11 @@
+# Claude API 버전 (flnc_analysis.py)
 anthropic>=0.104.0
 requests>=2.33.0
 beautifulsoup4>=4.14.0
 yfinance>=1.3.0
 pandas>=3.0.0
+
+# 무료 버전 추가 의존성 (flnc_free.py)
+transformers>=4.40.0       # FinBERT
+vaderSentiment>=3.3.2      # VADER fallback
+torch>=2.0.0               # FinBERT 실행 (GitHub Actions: CPU only 설치)

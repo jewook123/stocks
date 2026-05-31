@@ -1,0 +1,50 @@
+name: FLNC 무료 분석 → Telegram (Claude 불필요)
+
+on:
+  schedule:
+    # 매일 오전 9시 KST (UTC 00:00), 평일만
+    - cron: "0 0 * * 1-5"
+  workflow_dispatch:
+
+jobs:
+  analyze-free:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      # FinBERT 모델 캐시 (440MB, 최초 1회만 다운로드)
+      - name: FinBERT 모델 캐시 복원
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface/hub
+          key: finbert-prosusai-v1
+
+      # PyTorch CPU only 버전 설치 (GPU 버전보다 2GB 이상 작음)
+      - name: PyTorch CPU 설치
+        run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+      - name: 나머지 의존성 설치
+        run: pip install yfinance transformers vaderSentiment requests pandas
+
+      - name: FLNC 무료 분석 실행
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python flnc_free.py --telegram
+
+      - name: 리포트 아티팩트 저장
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: flnc-free-report-${{ github.run_id }}
+          path: flnc_free_report_*.json
+          retention-days: 30
