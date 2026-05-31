@@ -2,8 +2,8 @@ name: FLNC 주식 분석 → Telegram
 
 on:
   schedule:
-    # 매일 오전 9시 KST (UTC 00:00)
-    - cron: "0 0 * * 1-5"
+    # 매일 오전 7시 KST (UTC 22:00 전날)
+    - cron: "0 22 * * *"
   workflow_dispatch:        # 수동 실행 버튼
 
 jobs:
@@ -29,12 +29,12 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python flnc_analysis.py --telegram
+        run: python flnc_free.py --telegram
 
       - name: 분석 리포트 아티팩트 저장
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: flnc-report-${{ github.run_id }}
-          path: flnc_report_*.json
+          path: flnc_free_report_*.json
           retention-days: 30
