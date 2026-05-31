@@ -518,6 +518,136 @@ def fetch_macro() -> dict:
     }
 
 
+# ── 9. 기술적 분석 ────────────────────────────────────────────────────────────
+def fetch_technical() -> dict:
+    """RSI, MACD, 볼린저밴드, 이동평균선으로 매수/매도 진입점을 계산합니다."""
+    import yfinance as yf
+
+    df = yf.Ticker(TARGET_TICKER).history(period="1y")
+    if df.empty or len(df) < 50:
+        return {"error": "데이터 부족"}
+
+    close = df["Close"]
+
+    # 이동평균
+    sma20  = close.rolling(20).mean()
+    sma50  = close.rolling(50).mean()
+    sma200 = close.rolling(200).mean()
+    ema12  = close.ewm(span=12, adjust=False).mean()
+    ema26  = close.ewm(span=26, adjust=False).mean()
+
+    cur       = close.iloc[-1]
+    sma20_now = sma20.iloc[-1]
+    sma50_now = sma50.iloc[-1]
+    sma200_now = sma200.iloc[-1] if len(df) >= 200 else None
+
+    # RSI(14)
+    delta = close.diff()
+    gain  = delta.clip(lower=0).rolling(14).mean()
+    loss  = (-delta.clip(upper=0)).rolling(14).mean()
+    rsi   = (100 - 100 / (1 + gain / loss)).iloc[-1]
+
+    # MACD
+    macd_line   = ema12 - ema26
+    signal_line = macd_line.ewm(span=9, adjust=False).mean()
+    hist        = macd_line - signal_line
+    hist_now    = hist.iloc[-1]
+    hist_prev   = hist.iloc[-2]
+
+    # 볼린저밴드(20, 2σ)
+    bb_std   = close.rolling(20).std()
+    bb_upper = sma20 + 2 * bb_std
+    bb_lower = sma20 - 2 * bb_std
+    bb_u = bb_upper.iloc[-1]
+    bb_l = bb_lower.iloc[-1]
+    bb_pct = round((cur - bb_l) / (bb_u - bb_l) * 100, 1) if (bb_u - bb_l) else 50.0
+
+    # 지지/저항 (최근 60일 로컬 고점·저점)
+    recent = df.tail(60)
+    res_levels, sup_levels = [], []
+    for i in range(2, len(recent) - 2):
+        h = recent["High"].iloc[i]
+        if h > recent["High"].iloc[i-1] and h > recent["High"].iloc[i-2] \
+           and h > recent["High"].iloc[i+1] and h > recent["High"].iloc[i+2]:
+            res_levels.append(round(h, 2))
+        l = recent["Low"].iloc[i]
+        if l < recent["Low"].iloc[i-1] and l < recent["Low"].iloc[i-2] \
+           and l < recent["Low"].iloc[i+1] and l < recent["Low"].iloc[i+2]:
+            sup_levels.append(round(l, 2))
+
+    supports    = sorted([s for s in sup_levels if s < cur], reverse=True)[:3]
+    resistances = sorted([r for r in res_levels if r > cur])[:3]
+
+    # 신호 생성
+    signals = []
+    sma20_prev = sma20.iloc[-2]
+    sma50_prev = sma50.iloc[-2]
+
+    if sma20_prev < sma50_prev and sma20_now > sma50_now:
+        signals.append(("buy",  "골든크로스 (SMA20↑SMA50)", "강한 매수 신호"))
+    elif sma20_prev > sma50_prev and sma20_now < sma50_now:
+        signals.append(("sell", "데스크로스 (SMA20↓SMA50)", "강한 매도 신호"))
+
+    if rsi < 30:
+        signals.append(("buy",  f"RSI 과매도 ({rsi:.1f})", "반등 구간 진입 가능"))
+    elif rsi > 70:
+        signals.append(("sell", f"RSI 과매수 ({rsi:.1f})", "조정 가능성 높음"))
+
+    if hist_prev < 0 and hist_now > 0:
+        signals.append(("buy",  "MACD 골든크로스", "상승 모멘텀 발생"))
+    elif hist_prev > 0 and hist_now < 0:
+        signals.append(("sell", "MACD 데드크로스",  "하락 모멘텀 발생"))
+
+    if cur <= bb_l * 1.01:
+        signals.append(("buy",  "볼린저 하단 터치", "과매도 반등 구간"))
+    elif cur >= bb_u * 0.99:
+        signals.append(("sell", "볼린저 상단 터치", "과매수 조정 구간"))
+
+    if sma200_now:
+        if close.iloc[-2] < sma200.iloc[-2] and cur > sma200_now:
+            signals.append(("buy",  "SMA200 돌파",  "장기 추세 전환 가능"))
+        elif close.iloc[-2] > sma200.iloc[-2] and cur < sma200_now:
+            signals.append(("sell", "SMA200 하향 이탈", "장기 하락 추세 전환"))
+
+    buy_cnt  = sum(1 for s in signals if s[0] == "buy")
+    sell_cnt = sum(1 for s in signals if s[0] == "sell")
+
+    if buy_cnt >= 2 and sell_cnt == 0:
+        action, action_icon = "매수 적극 고려", "🟢"
+    elif buy_cnt == 1 and sell_cnt == 0:
+        action, action_icon = "매수 관망",      "🟡"
+    elif sell_cnt >= 2 and buy_cnt == 0:
+        action, action_icon = "매도 적극 고려", "🔴"
+    elif sell_cnt == 1 and buy_cnt == 0:
+        action, action_icon = "매도 관망",      "🟡"
+    else:
+        action, action_icon = "중립 (관망)",    "⬜"
+
+    trend = (
+        "강세 (SMA50·200 위)" if sma200_now and cur > sma200_now and cur > sma50_now else
+        "약세 (SMA50·200 아래)" if sma200_now and cur < sma200_now and cur < sma50_now else
+        "단기 상승" if cur > sma50_now else "단기 하락"
+    )
+
+    return {
+        "current_price":  round(cur, 2),
+        "sma20":          round(sma20_now, 2),
+        "sma50":          round(sma50_now, 2),
+        "sma200":         round(sma200_now, 2) if sma200_now else "N/A",
+        "rsi":            round(rsi, 1),
+        "macd_hist":      round(hist_now, 3),
+        "bb_upper":       round(bb_u, 2),
+        "bb_lower":       round(bb_l, 2),
+        "bb_position":    bb_pct,
+        "supports":       [float(s) for s in supports],
+        "resistances":    [float(r) for r in resistances],
+        "trend":          trend,
+        "signals":        signals,
+        "action":         action,
+        "action_icon":    action_icon,
+    }
+
+
 # ── 출력 헬퍼 ──────────────────────────────────────────────────────────────────
 def sep(char="=", w=72):  print(char * w)
 def section(t):           print(f"\n{'='*72}\n  {t}\n{'='*72}")
@@ -684,6 +814,48 @@ def main() -> dict:
         chg = f"{d['change_5d']:+.2f}%" if d.get("change_5d") is not None else "N/A"
         print(f"  {d['name']:<22} {val:>9} {chg:>9}")
 
+    # ── 9. 기술적 분석 ───────────────────────────────────────────────────────────
+    section("9. 기술적 분석 — 진입·매도 신호")
+    print("  기술적 지표 계산 중...")
+    tech = fetch_technical()
+    results["technical"] = tech
+
+    if "error" not in tech:
+        rsi_val = tech["rsi"]
+        rsi_bar = "█" * int(rsi_val / 10) + "░" * (10 - int(rsi_val / 10))
+        rsi_tag = "과매수⚠️" if rsi_val > 70 else "과매도✅" if rsi_val < 30 else "중립"
+        bb_pos  = tech["bb_position"]
+        print(f"\n  추세:     {tech['trend']}")
+        print(f"  종합판단: {tech['action_icon']} {tech['action']}")
+
+        sub("이동평균선")
+        cur_p = tech['current_price']
+        print(f"  현재가 ${cur_p}  vs  SMA20 ${tech['sma20']}  SMA50 ${tech['sma50']}  SMA200 ${tech['sma200']}")
+        print(f"  현재가 {'위' if cur_p > tech['sma50'] else '아래'} (SMA50 기준)")
+
+        sub("오실레이터")
+        print(f"  RSI(14):  {rsi_val:.1f}  [{rsi_bar}]  {rsi_tag}")
+        print(f"  MACD 히스토그램: {tech['macd_hist']:+.3f}  ({'상승 모멘텀' if tech['macd_hist'] > 0 else '하락 모멘텀'})")
+        print(f"  볼린저밴드 위치: {bb_pos:.1f}%  (하단 ${tech['bb_lower']} ~ 상단 ${tech['bb_upper']})")
+
+        sub("지지·저항선")
+        if tech["resistances"]:
+            print(f"  저항선 (매도 목표): {' / '.join(f'${r}' for r in tech['resistances'])}")
+        else:
+            print("  저항선: 근접 데이터 없음 (신고가 근처)")
+        if tech["supports"]:
+            print(f"  지지선 (손절 기준): {' / '.join(f'${s}' for s in tech['supports'])}")
+        else:
+            print("  지지선: 근접 데이터 없음")
+
+        sub("매매 신호")
+        if tech["signals"]:
+            for sig_type, name, desc in tech["signals"]:
+                icon = "📈 매수" if sig_type == "buy" else "📉 매도"
+                print(f"  {icon}  {name}  → {desc}")
+        else:
+            print("  현재 뚜렷한 신호 없음 (관망)")
+
     # ── 종합 요약 ──────────────────────────────────────────────────────────────
     section("★ 종합 요약")
     p_price = price.get("current_price", "N/A")
@@ -697,6 +869,7 @@ def main() -> dict:
   📉 공매도:       {opts['short_pct_float']}  DTC: {opts['days_to_cover']}일  숏스퀴즈: {opts['short_squeeze_risk']}
   🏛️  스마트머니:   {sm_icon} {inst.get('smart_money_trend','N/A')}  기관보유: {inst['institutional_pct']}
   🌍 매크로:       {ms:+d}/5  |  {macro['rate_environment']}
+  📐 기술적분석:   {tech.get('action_icon','⬜')} {tech.get('action','N/A')}  RSI: {tech.get('rsi','N/A')}  추세: {tech.get('trend','N/A')}
     """)
 
     # JSON 저장
@@ -901,8 +1074,45 @@ def send_telegram(results: dict):
     lines.append(f"\n금리환경: {macro.get('rate_environment','N/A')}")
     lines.append(f"시장심리: {macro.get('fear_environment','N/A')}")
     send("\n".join(lines))
+    time.sleep(0.5)
 
-    print("  [Telegram] 전송 완료 (총 6개 메시지)")
+    # ── MSG 7: 기술적 분석 ────────────────────────────────────────────────
+    tech = results.get("technical", {})
+    if "error" not in tech and tech:
+        rsi_val = tech.get("rsi", 0)
+        rsi_tag = "과매수⚠️" if rsi_val > 70 else "과매도✅" if rsi_val < 30 else "중립"
+        bb_pos  = tech.get("bb_position", 50)
+
+        lines = [
+            f"📐 <b>기술적 분석</b>\n",
+            f"{tech.get('action_icon','⬜')} <b>{tech.get('action','N/A')}</b>  |  추세: {tech.get('trend','N/A')}",
+            f"\n<b>이동평균선</b>",
+            f"현재가 <b>${tech.get('current_price','N/A')}</b>  SMA20 ${tech.get('sma20','N/A')}  SMA50 ${tech.get('sma50','N/A')}  SMA200 ${tech.get('sma200','N/A')}",
+            f"\n<b>오실레이터</b>",
+            f"RSI(14): <b>{rsi_val}</b>  {rsi_tag}",
+            f"MACD 히스토그램: {tech.get('macd_hist',0):+.3f}  ({'상승 모멘텀' if tech.get('macd_hist',0) > 0 else '하락 모멘텀'})",
+            f"볼린저밴드 위치: {bb_pos:.1f}%  (하단 ${tech.get('bb_lower','N/A')} ~ 상단 ${tech.get('bb_upper','N/A')})",
+        ]
+
+        res = tech.get("resistances", [])
+        sup = tech.get("supports", [])
+        lines.append("\n<b>저항선 (매도 목표)</b>")
+        lines.append("  " + " / ".join(f"${r}" for r in res) if res else "  신고가 근처 (데이터 없음)")
+        lines.append("<b>지지선 (손절 기준)</b>")
+        lines.append("  " + " / ".join(f"${s}" for s in sup) if sup else "  데이터 없음")
+
+        sigs = tech.get("signals", [])
+        if sigs:
+            lines.append("\n<b>매매 신호</b>")
+            for sig_type, name, desc in sigs:
+                icon = "📈" if sig_type == "buy" else "📉"
+                lines.append(f"{icon} {name}  → {desc}")
+        else:
+            lines.append("\n현재 뚜렷한 신호 없음 (관망)")
+
+        send("\n".join(lines))
+
+    print("  [Telegram] 전송 완료 (총 7개 메시지)")
 
 
 if __name__ == "__main__":
