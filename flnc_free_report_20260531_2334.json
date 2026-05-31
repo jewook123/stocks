@@ -1,0 +1,415 @@
+{
+  "generated_at": "2026년 05월 31일 23:33",
+  "news": {
+    "news_items": [],
+    "overall_sentiment": "N/A",
+    "sentiment_score": 0,
+    "positive_count": 0,
+    "negative_count": 0,
+    "neutral_count": 0
+  },
+  "price": {
+    "current_price": 18.88,
+    "change_1d_pct": -11.61,
+    "change_5d_pct": -12.15,
+    "change_1m_pct": 55.01,
+    "high_52w": 33.51,
+    "low_52w": 4.4,
+    "volume": 11169300,
+    "avg_volume_20d": 14272576,
+    "market_cap": "$3.48B",
+    "beta": 2.62
+  },
+  "sec": {
+    "filings": [
+      {
+        "form_type": "SD",
+        "date": "2026-05-29",
+        "items": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1868941/000186894126000018/formsd-2026.htm",
+        "significance": "low"
+      },
+      {
+        "form_type": "SCHEDULE 13G/A",
+        "date": "2026-05-19",
+        "items": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1868941/000199937126011100/xslSCHEDULE_13G_X02/primary_doc.xml",
+        "significance": "low"
+      },
+      {
+        "form_type": "SCHEDULE 13D/A",
+        "date": "2026-05-19",
+        "items": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1868941/000199937126011098/xslSCHEDULE_13D_X02/primary_doc.xml",
+        "significance": "low"
+      },
+      {
+        "form_type": "4",
+        "date": "2026-05-19",
+        "items": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1868941/000095010326007429/xslF345X06/ownership.xml",
+        "significance": "low"
+      },
+      {
+        "form_type": "SCHEDULE 13G/A",
+        "date": "2026-05-18",
+        "items": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1868941/000095010326007353/xslSCHEDULE_13G_X02/primary_doc.xml",
+        "significance": "low"
+      },
+      {
+        "form_type": "4",
+        "date": "2026-05-18",
+        "items": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1868941/000199937126010957/xslF345X06/qatar-form4_051526.xml",
+        "significance": "low"
+      },
+      {
+        "form_type": "SCHEDULE 13D",
+        "date": "2026-05-18",
+        "items": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1868941/000144144926000009/xslSCHEDULE_13D_X02/primary_doc.xml",
+        "significance": "low"
+      },
+      {
+        "form_type": "4",
+        "date": "2026-05-15",
+        "items": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1868941/000119312526227099/xslF345X06/ownership.xml",
+        "significance": "low"
+      },
+      {
+        "form_type": "8-K",
+        "date": "2026-05-15",
+        "items": "3.02,8.01,9.01",
+        "url": "https://www.sec.gov/Archives/edgar/data/1868941/000110465926062654/tm2614667d1_8k.htm",
+        "significance": "high"
+      },
+      {
+        "form_type": "424B7",
+        "date": "2026-05-13",
+        "items": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1868941/000110465926060351/tm2613150-4_424b7.htm",
+        "significance": "medium"
+      },
+      {
+        "form_type": "424B7",
+        "date": "2026-05-12",
+        "items": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1868941/000110465926059102/tm2613150-3_424b7.htm",
+        "significance": "medium"
+      },
+      {
+        "form_type": "S-3ASR",
+        "date": "2026-05-12",
+        "items": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1868941/000110465926059052/tm2613150-1_s3asr.htm",
+        "significance": "medium"
+      },
+      {
+        "form_type": "10-Q",
+        "date": "2026-05-06",
+        "items": "",
+        "url": "https://www.sec.gov/Archives/edgar/data/1868941/000110465926056304/flnc-20260331x10q.htm",
+        "significance": "high"
+      },
+      {
+        "form_type": "8-K",
+        "date": "2026-05-06",
+        "items": "2.02,9.01",
+        "url": "https://www.sec.gov/Archives/edgar/data/1868941/000186894126000014/flnc-20260506.htm",
+        "significance": "high"
+      },
+      {
+        "form_type": "8-K/A",
+        "date": "2026-04-06",
+        "items": "1.01",
+        "url": "https://www.sec.gov/Archives/edgar/data/1868941/000186894126000012/flnc-20260331.htm",
+        "significance": "low"
+      },
+      {
+        "form_type": "8-K",
+        "date": "2026-04-03",
+        "items": "1.01,9.01",
+        "url": "https://www.sec.gov/Archives/edgar/data/1868941/000110465926039628/tm2610909d1_8k.htm",
+        "significance": "high"
+      }
+    ],
+    "total_count": 16,
+    "last_10q": "2026-05-06",
+    "last_8k": "2026-05-15"
+  },
+  "fundamentals": {
+    "market_cap": "$3.48B",
+    "pe_ratio": "N/A (적자)",
+    "pb_ratio": 6.81,
+    "ps_ratio": 1.35,
+    "revenue_ttm": "$2.58B",
+    "revenue_growth": "7.7%",
+    "gross_margin": "11.7%",
+    "ebitda_margin": "-0.7%",
+    "total_cash": "$387.3M",
+    "total_debt": "$402.0M",
+    "revenue_q": "$464.9M",
+    "gross_margin_q": "10.0%",
+    "net_income_q": "$-20.9M",
+    "fcf_q": "$-127.9M"
+  },
+  "options_short": {
+    "short_pct_float": "38.2%",
+    "days_to_cover": 2.1,
+    "short_trend": "N/A",
+    "short_squeeze_risk": "High",
+    "put_call_ratio": 0.23,
+    "options_sentiment": "Bullish",
+    "calls_volume": "11,796",
+    "puts_volume": "2,655"
+  },
+  "institutional": {
+    "top_holders": [
+      {
+        "name": "Siemens Pension Trust E.V.",
+        "shares": "31,761,131",
+        "pct": "0.24%"
+      },
+      {
+        "name": "Siemens Ag",
+        "shares": "19,738,064",
+        "pct": "0.15%"
+      },
+      {
+        "name": "Shaw D.E. & Co., Inc.",
+        "shares": "6,045,038",
+        "pct": "0.05%"
+      },
+      {
+        "name": "Two Sigma Investments, LP",
+        "shares": "5,695,266",
+        "pct": "0.04%"
+      },
+      {
+        "name": "Blackrock Inc.",
+        "shares": "5,517,433",
+        "pct": "0.04%"
+      },
+      {
+        "name": "Bank of America Corporation",
+        "shares": "3,085,730",
+        "pct": "0.02%"
+      },
+      {
+        "name": "Vanguard Portfolio Management LLC",
+        "shares": "2,985,503",
+        "pct": "0.02%"
+      },
+      {
+        "name": "Vanguard Capital Management LLC",
+        "shares": "2,854,689",
+        "pct": "0.02%"
+      }
+    ],
+    "insider_transactions": [
+      {
+        "date": "2026-05-15",
+        "person": "",
+        "type": "sell",
+        "shares": "10,066,414"
+      },
+      {
+        "date": "2026-05-15",
+        "person": "",
+        "type": "sell",
+        "shares": "2,867,172"
+      },
+      {
+        "date": "2026-05-15",
+        "person": "",
+        "type": "sell",
+        "shares": "10,066,414"
+      },
+      {
+        "date": "2026-05-15",
+        "person": "",
+        "type": "sell",
+        "shares": "10,066,414"
+      },
+      {
+        "date": "2026-03-18",
+        "person": "",
+        "type": "sell",
+        "shares": "10,000"
+      }
+    ],
+    "institutional_pct": "0.6%",
+    "smart_money_trend": "Distributing"
+  },
+  "competitors": [
+    {
+      "ticker": "FLNC",
+      "company": "Fluence Energy",
+      "price": "$18.88",
+      "change_1m": "+55.0%",
+      "market_cap": "$3.48B",
+      "revenue_growth": "7.7%",
+      "gross_margin": "11.7%",
+      "ps_ratio": 1.3,
+      "pe_ratio": "적자",
+      "short_pct": "38.2%",
+      "beta": 2.62
+    },
+    {
+      "ticker": "BE",
+      "company": "Bloom Energy",
+      "price": "$285.00",
+      "change_1m": "+0.6%",
+      "market_cap": "$81.07B",
+      "revenue_growth": "130.4%",
+      "gross_margin": "30.1%",
+      "ps_ratio": 33.1,
+      "pe_ratio": "적자",
+      "short_pct": "11.7%",
+      "beta": 3.83
+    },
+    {
+      "ticker": "STEM",
+      "company": "Stem Inc",
+      "price": "$9.72",
+      "change_1m": "-9.2%",
+      "market_cap": "$87.1M",
+      "revenue_growth": "-10.8%",
+      "gross_margin": "40.8%",
+      "ps_ratio": 0.6,
+      "pe_ratio": "적자",
+      "short_pct": "12.6%",
+      "beta": 1.52
+    },
+    {
+      "ticker": "ENPH",
+      "company": "Enphase Energy",
+      "price": "$68.36",
+      "change_1m": "+107.4%",
+      "market_cap": "$9.01B",
+      "revenue_growth": "-20.6%",
+      "gross_margin": "27.2%",
+      "ps_ratio": 6.4,
+      "pe_ratio": 67.7,
+      "short_pct": "27.4%",
+      "beta": 1.25
+    },
+    {
+      "ticker": "SEDG",
+      "company": "SolarEdge",
+      "price": "$76.35",
+      "change_1m": "+78.1%",
+      "market_cap": "$4.64B",
+      "revenue_growth": "41.5%",
+      "gross_margin": "18.3%",
+      "ps_ratio": 3.6,
+      "pe_ratio": "적자",
+      "short_pct": "19.7%",
+      "beta": 1.18
+    },
+    {
+      "ticker": "AES",
+      "company": "AES Corporation",
+      "price": "$14.67",
+      "change_1m": "+2.8%",
+      "market_cap": "$10.46B",
+      "revenue_growth": "8.7%",
+      "gross_margin": "19.3%",
+      "ps_ratio": 0.8,
+      "pe_ratio": 7.6,
+      "short_pct": "2.5%",
+      "beta": 0.96
+    },
+    {
+      "ticker": "NEE",
+      "company": "NextEra Energy",
+      "price": "$87.01",
+      "change_1m": "-11.1%",
+      "market_cap": "$181.47B",
+      "revenue_growth": "7.3%",
+      "gross_margin": "61.4%",
+      "ps_ratio": 6.5,
+      "pe_ratio": 22.1,
+      "short_pct": "0.0%",
+      "beta": 0.72
+    },
+    {
+      "ticker": "PLUG",
+      "company": "Plug Power",
+      "price": "$3.95",
+      "change_1m": "+26.2%",
+      "market_cap": "$5.51B",
+      "revenue_growth": "22.3%",
+      "gross_margin": "-31.2%",
+      "ps_ratio": 7.4,
+      "pe_ratio": "적자",
+      "short_pct": "27.5%",
+      "beta": 2.06
+    },
+    {
+      "ticker": "FCEL",
+      "company": "FuelCell Energy",
+      "price": "$21.66",
+      "change_1m": "+66.6%",
+      "market_cap": "$1.15B",
+      "revenue_growth": "60.7%",
+      "gross_margin": "-15.9%",
+      "ps_ratio": 6.8,
+      "pe_ratio": "적자",
+      "short_pct": "10.3%",
+      "beta": 2.23
+    },
+    {
+      "ticker": "ARRY",
+      "company": "Array Technologies",
+      "price": "$9.08",
+      "change_1m": "+17.3%",
+      "market_cap": "$1.40B",
+      "revenue_growth": "-26.1%",
+      "gross_margin": "26.1%",
+      "ps_ratio": 1.2,
+      "pe_ratio": "적자",
+      "short_pct": "23.5%",
+      "beta": 1.76
+    }
+  ],
+  "macro": {
+    "indicators": {
+      "^TNX": {
+        "name": "미국 10년물 국채(%)",
+        "value": 4.45,
+        "change_5d": -0.89
+      },
+      "^VIX": {
+        "name": "VIX 공포지수",
+        "value": 15.32,
+        "change_5d": -7.66
+      },
+      "^GSPC": {
+        "name": "S&P 500",
+        "value": 7580.06,
+        "change_5d": 1.43
+      },
+      "DX-Y.NYB": {
+        "name": "달러 인덱스",
+        "value": 98.91,
+        "change_5d": -0.26
+      },
+      "CL=F": {
+        "name": "WTI 원유($/배럴)",
+        "value": 87.36,
+        "change_5d": -6.95
+      },
+      "GC=F": {
+        "name": "금($/oz)",
+        "value": 4593.0,
+        "change_5d": 2.06
+      }
+    },
+    "rate_environment": "중금리",
+    "fear_environment": "안정 구간",
+    "macro_score": 0
+  }
+}

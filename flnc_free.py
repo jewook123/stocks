@@ -26,7 +26,7 @@ warnings.filterwarnings("ignore")
 # ── 설정 ──────────────────────────────────────────────────────────────────────
 TARGET_TICKER = "FLNC"
 FLNC_CIK      = "0001868941"          # SEC EDGAR CIK (Fluence Energy)
-DAYS_BACK     = 3
+DAYS_BACK     = 14
 
 EDGAR_HEADERS = {"User-Agent": "StockAnalysis jewook89@gmail.com"}
 
@@ -535,7 +535,10 @@ def main() -> dict:
     results = {"generated_at": now}
 
     # ── 1. 뉴스 감성 ──────────────────────────────────────────────────────────
-    section(f"1. 뉴스 감성 분석 (최근 {DAYS_BACK}일) — FinBERT / VADER")
+    from datetime import datetime, timedelta
+    date_from = (datetime.now() - timedelta(days=DAYS_BACK)).strftime("%Y-%m-%d")
+    date_to   = datetime.now().strftime("%Y-%m-%d")
+    section(f"1. 뉴스 감성 분석 ({date_from} ~ {date_to}, 최근 {DAYS_BACK}일) — FinBERT / VADER")
     print("  뉴스 수집 및 감성 분류 중...")
     news_data = analyze_news()
     results["news"] = news_data
