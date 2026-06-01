@@ -23,25 +23,51 @@ from datetime import datetime, timedelta
 
 warnings.filterwarnings("ignore")
 
-# ── 설정 ──────────────────────────────────────────────────────────────────────
+# ── 설정 (런타임에 --ticker 인수로 덮어씀) ──────────────────────────────────────
 TARGET_TICKER = "FLNC"
-FLNC_CIK      = "0001868941"          # SEC EDGAR CIK (Fluence Energy)
+TARGET_CIK    = "0001868941"          # SEC EDGAR CIK — 런타임에 자동 조회
 DAYS_BACK     = 14
+PEER_LIST: list[tuple[str, str]] = [] # 런타임에 설정
 
 EDGAR_HEADERS = {"User-Agent": "StockAnalysis jewook89@gmail.com"}
 
-ESS_PEERS = [
-    ("FLNC", "Fluence Energy"),
-    ("BE",   "Bloom Energy"),
-    ("STEM", "Stem Inc"),
-    ("ENPH", "Enphase Energy"),
-    ("SEDG", "SolarEdge"),
-    ("AES",  "AES Corporation"),
-    ("NEE",  "NextEra Energy"),
-    ("PLUG", "Plug Power"),
-    ("FCEL", "FuelCell Energy"),
-    ("ARRY", "Array Technologies"),
-]
+# 종목별 기본 경쟁사 (--peers 미지정 시 사용)
+KNOWN_PEERS: dict[str, list[tuple[str, str]]] = {
+    "FLNC": [
+        ("FLNC","Fluence Energy"), ("BE","Bloom Energy"), ("STEM","Stem Inc"),
+        ("ENPH","Enphase Energy"), ("SEDG","SolarEdge"), ("AES","AES Corporation"),
+        ("NEE","NextEra Energy"), ("PLUG","Plug Power"), ("FCEL","FuelCell Energy"),
+        ("ARRY","Array Technologies"),
+    ],
+    "TSLA": [
+        ("TSLA","Tesla"), ("GM","General Motors"), ("F","Ford Motor"),
+        ("RIVN","Rivian"), ("LCID","Lucid Motors"), ("NIO","NIO"), ("LI","Li Auto"),
+    ],
+    "NVDA": [
+        ("NVDA","NVIDIA"), ("AMD","AMD"), ("INTC","Intel"), ("QCOM","Qualcomm"),
+        ("AVGO","Broadcom"), ("MU","Micron"), ("ARM","ARM Holdings"),
+    ],
+    "AAPL": [
+        ("AAPL","Apple"), ("MSFT","Microsoft"), ("GOOGL","Alphabet"),
+        ("META","Meta"), ("AMZN","Amazon"), ("QCOM","Qualcomm"),
+    ],
+    "MSFT": [
+        ("MSFT","Microsoft"), ("AAPL","Apple"), ("GOOGL","Alphabet"),
+        ("AMZN","Amazon"), ("META","Meta"), ("CRM","Salesforce"),
+    ],
+    "AMZN": [
+        ("AMZN","Amazon"), ("MSFT","Microsoft"), ("GOOGL","Alphabet"),
+        ("BABA","Alibaba"), ("WMT","Walmart"), ("TGT","Target"),
+    ],
+    "GOOGL": [
+        ("GOOGL","Alphabet"), ("MSFT","Microsoft"), ("META","Meta"),
+        ("AAPL","Apple"), ("AMZN","Amazon"), ("SNAP","Snap"),
+    ],
+    "META": [
+        ("META","Meta"), ("GOOGL","Alphabet"), ("SNAP","Snap"),
+        ("PINS","Pinterest"), ("TWTR","X/Twitter"), ("MSFT","Microsoft"),
+    ],
+}
 
 MACRO_SYMBOLS = {
     "^TNX":     "미국 10년물 국채(%)",
@@ -51,6 +77,21 @@ MACRO_SYMBOLS = {
     "CL=F":     "WTI 원유($/배럴)",
     "GC=F":     "금($/oz)",
 }
+
+
+# ── SEC EDGAR CIK 조회 ────────────────────────────────────────────────────────
+def lookup_cik(ticker: str) -> str | None:
+    """SEC EDGAR 공개 API로 ticker → CIK(10자리) 조회"""
+    url = "https://www.sec.gov/files/company_tickers.json"
+    try:
+        resp = requests.get(url, headers=EDGAR_HEADERS, timeout=20)
+        resp.raise_for_status()
+        for entry in resp.json().values():
+            if entry.get("ticker", "").upper() == ticker.upper():
+                return str(entry["cik_str"]).zfill(10)
+    except Exception as e:
+        print(f"  [EDGAR] CIK 조회 실패: {e}")
+    return None
 
 
 # ── 감성 분석 엔진 (FinBERT → VADER 순서로 시도) ───────────────────────────────
@@ -239,7 +280,9 @@ def fetch_price() -> dict:
 # ── 3. SEC 공시 (EDGAR API, 무료) ─────────────────────────────────────────────
 def fetch_sec_filings(days: int = 60) -> dict:
     """SEC EDGAR 공개 API로 최근 공시를 가져옵니다. 토큰 불필요."""
-    url = f"https://data.sec.gov/submissions/CIK{FLNC_CIK}.json"
+    if not TARGET_CIK:
+        return {"filings": [], "total_count": 0, "error": "CIK 미조회"}
+    url = f"https://data.sec.gov/submissions/CIK{TARGET_CIK}.json"
     try:
         resp = requests.get(url, headers=EDGAR_HEADERS, timeout=15)
         resp.raise_for_status()
@@ -268,7 +311,7 @@ def fetch_sec_filings(days: int = 60) -> dict:
             "form_type":    form,
             "date":         date,
             "items":        items,
-            "url":          f"https://www.sec.gov/Archives/edgar/data/{int(FLNC_CIK)}/{acc_path}/{doc}",
+            "url":          f"https://www.sec.gov/Archives/edgar/data/{int(TARGET_CIK)}/{acc_path}/{doc}",
             "significance": "high" if form in HIGH else "medium" if form in MED else "low",
         })
 
@@ -441,7 +484,7 @@ def fetch_competitors() -> list[dict]:
     import yfinance as yf
 
     results = []
-    for sym, company in ESS_PEERS:
+    for sym, company in PEER_LIST:
         try:
             stock = yf.Ticker(sym)
             info  = stock.info
@@ -498,7 +541,7 @@ def fetch_macro() -> dict:
 
     # 금리 환경 평가
     if tnx:
-        rate_env   = "고금리 (ESS 자금조달 부담)" if tnx > 4.5 else "중금리" if tnx > 4.0 else "저금리 (ESS 우호적)"
+        rate_env   = "고금리 (자금조달 비용 상승)" if tnx > 4.5 else "중금리" if tnx > 4.0 else "저금리 (성장주 우호적)"
         rate_score = -2 if tnx > 4.5 else -1 if tnx > 4.0 else 1
     else:
         rate_env, rate_score = "N/A", 0
@@ -658,7 +701,7 @@ def sub(t):               print(f"\n  ── {t} {'─'*(66-len(t))}")
 def main() -> dict:
     now = datetime.now().strftime("%Y년 %m월 %d일 %H:%M")
     sep("█")
-    print(f"  FLNC (Fluence Energy) 무료 주식 분석 리포트")
+    print(f"  {TARGET_TICKER} 무료 주식 분석 리포트")
     print(f"  분석 일시: {now}  |  엔진: yfinance + FinBERT + EDGAR API")
     sep("█")
 
@@ -782,11 +825,11 @@ def main() -> dict:
     comps = fetch_competitors()
     results["competitors"] = comps
 
-    sub("ESS 관련주 비교")
+    sub(f"{TARGET_TICKER} 경쟁사 비교")
     print(f"  {'티커':<6} {'현재가':>8} {'1개월':>7} {'시총':>9} {'매출성장':>8} {'총이익률':>8} {'P/S':>6} {'공매도':>7}  Beta")
     print("  " + "─" * 75)
     for c in comps:
-        star = "★" if c["ticker"] == "FLNC" else " "
+        star = "★" if c["ticker"] == TARGET_TICKER else " "
         print(
             f"  {star}{c['ticker']:<5} {c['price']:>8} {c['change_1m']:>7} "
             f"{c['market_cap']:>9} {c['revenue_growth']:>8} {c['gross_margin']:>8} "
@@ -802,7 +845,7 @@ def main() -> dict:
     ms = macro["macro_score"]
     mb = "█" * abs(ms) + "░" * (5 - abs(ms))
     md = "+" if ms >= 0 else "-"
-    print(f"\n  매크로 점수: [{md}{mb}]  ({ms:+d}/5)  — ESS에 {'유리' if ms >= 0 else '불리'}")
+    print(f"\n  매크로 점수: [{md}{mb}]  ({ms:+d}/5)  — {TARGET_TICKER}에 {'유리' if ms >= 0 else '불리'}")
     print(f"  금리 환경:   {macro['rate_environment']}")
     print(f"  시장 심리:   {macro['fear_environment']}")
 
@@ -874,7 +917,7 @@ def main() -> dict:
 
     # JSON 저장
     ts   = datetime.now().strftime("%Y%m%d_%H%M")
-    path = os.path.join(os.path.dirname(__file__) or ".", f"flnc_free_report_{ts}.json")
+    path = os.path.join(os.path.dirname(__file__) or ".", f"stock_report_{TARGET_TICKER}_{ts}.json")
     with open(path, "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2, default=str)
 
@@ -941,7 +984,7 @@ def send_telegram(results: dict):
         score_label = "중립 (뚜렷한 방향성 없음)"
 
     send(
-        f"📊 <b>FLNC 무료 주식 분석</b>  <i>(yfinance+{engine})</i>\n"
+        f"📊 <b>{TARGET_TICKER} 무료 주식 분석</b>  <i>(yfinance+{engine})</i>\n"
         f"🗓 {now_str}\n{'─'*30}\n\n"
         f"💹 <b>${p}</b>  {f'{d1:+.2f}%' if d1 is not None else ''} (1일) / {f'{d1m:+.2f}%' if d1m is not None else ''} (1개월)\n"
         f"52주: ${price.get('low_52w','N/A')} ~ ${price.get('high_52w','N/A')}\n\n"
@@ -1048,11 +1091,11 @@ def send_telegram(results: dict):
 
     # ── MSG 5: 경쟁사 비교 ────────────────────────────────────────────────
     if comps:
-        lines = ["⚔️ <b>ESS 경쟁사 비교</b>\n<pre>"]
+        lines = [f"⚔️ <b>{TARGET_TICKER} 경쟁사 비교</b>\n<pre>"]
         lines.append(f"{'티커':<6} {'현재가':>8} {'1개월':>7} {'총이익률':>8} {'P/S':>5}  공매도")
         lines.append("─" * 46)
         for c in comps:
-            star = "⭐" if c["ticker"] == "FLNC" else "  "
+            star = "⭐" if c["ticker"] == TARGET_TICKER else "  "
             lines.append(
                 f"{star}{c['ticker']:<5} {c['price']:>8} {c['change_1m']:>7} "
                 f"{c['gross_margin']:>8} {str(c['ps_ratio']):>5}  {c['short_pct']}"
@@ -1116,8 +1159,47 @@ def send_telegram(results: dict):
 
 
 if __name__ == "__main__":
-    import sys
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="무료 주식 분석 (yfinance + FinBERT + EDGAR API)"
+    )
+    parser.add_argument(
+        "--ticker", default="FLNC", metavar="SYMBOL",
+        help="분석할 종목 코드 (예: FLNC, TSLA, AAPL). 기본값: FLNC",
+    )
+    parser.add_argument(
+        "--peers", nargs="*", metavar="SYMBOL",
+        help="경쟁사 종목 코드 목록 (예: --peers BE STEM ENPH). 미지정 시 사전 정의 목록 사용",
+    )
+    parser.add_argument(
+        "--telegram", action="store_true",
+        help="분석 결과를 Telegram으로 전송",
+    )
+    args = parser.parse_args()
+
+    # ── 글로벌 변수 설정 ──────────────────────────────────────────────────────
+    TARGET_TICKER = args.ticker.upper()
+
+    # CIK 자동 조회
+    print(f"\n  [{TARGET_TICKER}] SEC EDGAR CIK 조회 중...")
+    _cik = lookup_cik(TARGET_TICKER)
+    if _cik:
+        TARGET_CIK = _cik
+        print(f"  [{TARGET_TICKER}] CIK: {TARGET_CIK}")
+    else:
+        TARGET_CIK = ""
+        print(f"  [{TARGET_TICKER}] CIK 조회 실패 — SEC 공시 섹션이 생략됩니다")
+
+    # 경쟁사 목록 설정
+    if args.peers:
+        PEER_LIST = [(sym.upper(), sym.upper()) for sym in args.peers]
+        if TARGET_TICKER not in [p[0] for p in PEER_LIST]:
+            PEER_LIST.insert(0, (TARGET_TICKER, TARGET_TICKER))
+    else:
+        PEER_LIST = KNOWN_PEERS.get(TARGET_TICKER, [(TARGET_TICKER, TARGET_TICKER)])
+
     results = main()
-    if "--telegram" in sys.argv and results:
+    if args.telegram and results:
         print("\n  Telegram 전송 중...")
         send_telegram(results)

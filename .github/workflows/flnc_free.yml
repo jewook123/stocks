@@ -1,10 +1,19 @@
-name: FLNC 무료 분석 → Telegram (Claude 불필요)
+name: 주식 무료 분석 → Telegram (Claude 불필요)
 
 on:
   schedule:
     # 매일 오전 9시 KST (UTC 00:00), 평일만
     - cron: "0 0 * * 1-5"
   workflow_dispatch:
+    inputs:
+      ticker:
+        description: "분석할 종목 코드 (예: FLNC, TSLA, AAPL, NVDA)"
+        required: false
+        default: "FLNC"
+      peers:
+        description: "경쟁사 종목 코드 (공백 구분, 선택). 미입력 시 사전 정의 목록 사용"
+        required: false
+        default: ""
 
 jobs:
   analyze-free:
@@ -35,16 +44,23 @@ jobs:
       - name: 나머지 의존성 설치
         run: pip install yfinance transformers vaderSentiment requests pandas
 
-      - name: FLNC 무료 분석 실행
+      - name: 종목 분석 실행
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python flnc_free.py --telegram
+          TICKER: ${{ github.event.inputs.ticker || 'FLNC' }}
+          PEERS:  ${{ github.event.inputs.peers || '' }}
+        run: |
+          if [ -n "$PEERS" ]; then
+            python flnc_free.py --ticker "$TICKER" --peers $PEERS --telegram
+          else
+            python flnc_free.py --ticker "$TICKER" --telegram
+          fi
 
       - name: 리포트 아티팩트 저장
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: flnc-free-report-${{ github.run_id }}
-          path: flnc_free_report_*.json
+          name: stock-report-${{ github.event.inputs.ticker || 'FLNC' }}-${{ github.run_id }}
+          path: stock_report_*.json
           retention-days: 30
