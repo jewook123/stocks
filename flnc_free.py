@@ -744,20 +744,50 @@ def fetch_earnings_surprise() -> dict:
 
     stock = yf.Ticker(TARGET_TICKER)
 
-    # 다음 실적 발표일
+    # 다음 실적 발표일 (현재 이후 날짜만 사용)
     next_date = None
+    now_date = datetime.now().date()
     try:
         cal = stock.calendar
         if isinstance(cal, dict):
             dates = cal.get("Earnings Date") or cal.get("earningsDate") or []
             if dates:
-                next_date = str(dates[0])[:10]
+                for d in dates:
+                    date_str = str(d)[:10]
+                    try:
+                        if datetime.strptime(date_str, "%Y-%m-%d").date() >= now_date:
+                            next_date = date_str
+                            break
+                    except Exception:
+                        pass
+                if not next_date:
+                    next_date = str(dates[-1])[:10]
         elif cal is not None and hasattr(cal, "columns"):
             col = next((c for c in cal.columns if "Earnings" in str(c)), None)
             if col:
-                next_date = str(cal[col].iloc[0])[:10]
+                for val in cal[col]:
+                    date_str = str(val)[:10]
+                    try:
+                        if datetime.strptime(date_str, "%Y-%m-%d").date() >= now_date:
+                            next_date = date_str
+                            break
+                    except Exception:
+                        pass
     except Exception:
         pass
+
+    def _to_quarter(qtr_raw) -> str:
+        """Timestamp 또는 날짜 문자열을 'Q# YYYY' 형식으로 변환"""
+        try:
+            if hasattr(qtr_raw, "month"):
+                q = (qtr_raw.month - 1) // 3 + 1
+                return f"Q{q} {qtr_raw.year}"
+            date_str = str(qtr_raw)[:10]
+            dt = datetime.strptime(date_str, "%Y-%m-%d")
+            q = (dt.month - 1) // 3 + 1
+            return f"Q{q} {dt.year}"
+        except Exception:
+            return str(qtr_raw)[:10]
 
     # EPS 서프라이즈 히스토리
     history = []
@@ -768,7 +798,7 @@ def fetch_earnings_surprise() -> dict:
                 est = row.get("epsEstimate")
                 act = row.get("epsActual")
                 sur = row.get("surprisePercent") or row.get("epsDifference")
-                qtr = str(row.get("quarter", ""))[:10]
+                qtr = _to_quarter(row.get("quarter", ""))
                 history.append({
                     "date":         qtr,
                     "eps_estimate": round(float(est), 2) if est is not None else None,
