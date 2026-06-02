@@ -1071,6 +1071,68 @@ def main() -> dict:
         else:
             print("  현재 뚜렷한 신호 없음 (관망)")
 
+    # ── 10. 애널리스트 컨센서스 ──────────────────────────────────────────────────
+    section("10. 애널리스트 컨센서스 & 목표주가")
+    print("  애널리스트 데이터 수집 중...")
+    analyst = fetch_analyst()
+    results["analyst"] = analyst
+
+    total_a = analyst["buy_count"] + analyst["hold_count"] + analyst["sell_count"]
+    buy_bar  = "█" * analyst["buy_count"]  if analyst["buy_count"]  else ""
+    hold_bar = "▒" * analyst["hold_count"] if analyst["hold_count"] else ""
+    sell_bar = "░" * analyst["sell_count"] if analyst["sell_count"] else ""
+    print(f"\n  컨센서스:  {analyst['recommendation']}  (분석가 {analyst['num_analysts']}명)")
+    print(f"  분포:      [{buy_bar}{hold_bar}{sell_bar}]  매수 {analyst['buy_count']} / 보유 {analyst['hold_count']} / 매도 {analyst['sell_count']}")
+    if analyst["target_mean"]:
+        upside_str = f"{analyst['upside_pct']:+.1f}%" if analyst["upside_pct"] is not None else ""
+        print(f"  목표주가:  평균 ${analyst['target_mean']}  ({upside_str} 업사이드)")
+        print(f"             최고 ${analyst['target_high']}  /  최저 ${analyst['target_low']}")
+
+    # ── 11. 실적 서프라이즈 ──────────────────────────────────────────────────────
+    section("11. 실적 서프라이즈 히스토리 (최근 4분기)")
+    print("  실적 데이터 수집 중...")
+    earnings = fetch_earnings_surprise()
+    results["earnings"] = earnings
+
+    print(f"\n  다음 실적 발표: {earnings['next_earnings_date'] or 'N/A'}")
+    print(f"  어닝 비트 비율: {earnings['beat_rate']}  (Beat {earnings['beat_count']} / Miss {earnings['miss_count']})")
+    if earnings["history"]:
+        sub("분기별 EPS 서프라이즈")
+        print(f"  {'분기':<12} {'예상EPS':>9} {'실제EPS':>9} {'서프라이즈':>11}")
+        print(f"  {'─'*12} {'─'*9} {'─'*9} {'─'*11}")
+        for h in earnings["history"]:
+            est = f"${h['eps_estimate']}" if h["eps_estimate"] is not None else "N/A"
+            act = f"${h['eps_actual']}"   if h["eps_actual"]   is not None else "N/A"
+            sur = h["surprise_pct"]
+            if sur is not None:
+                tag = f"{sur:+.1f}% ✅" if sur > 0 else f"{sur:+.1f}% ❌"
+            else:
+                tag = "N/A"
+            print(f"  {h['date']:<12} {est:>9} {act:>9} {tag:>11}")
+
+    # ── 12. 종합 Bull/Bear 스코어카드 ────────────────────────────────────────────
+    section("★ 12. 종합 Bull/Bear 스코어카드")
+    scorecard = calc_scorecard(results)
+    results["scorecard"] = scorecard
+
+    norm  = scorecard["total_normalized"]
+    icon  = scorecard["verdict_icon"]
+    verd  = scorecard["verdict"]
+    bar_b = "█" * max(0, int(norm))  if norm > 0 else ""
+    bar_r = "█" * max(0, int(-norm)) if norm < 0 else ""
+    bar   = f"🟢{bar_b:<10}" if norm >= 0 else f"🔴{bar_r:<10}"
+    print(f"\n  {icon} 종합 판정: {verd}  (점수 {norm:+.1f} / 10)")
+    print(f"  {bar}")
+    print()
+    print(f"  {'항목':<18} {'점수':>5}  방향")
+    print(f"  {'─'*18} {'─'*5}  {'─'*20}")
+    for name, sc in scorecard["scores"].items():
+        direction = "▲ 강세" if sc > 0 else "▼ 약세" if sc < 0 else "━ 중립"
+        bar_s = ("+" * abs(sc)) if sc > 0 else ("-" * abs(sc))
+        print(f"  {name:<18} {sc:>+5}  {bar_s:<4}  {direction}")
+    print(f"  {'─'*18} {'─'*5}")
+    print(f"  {'합계':<18} {scorecard['total_raw']:>+5}  ({norm:+.1f}/10)")
+
     # ── 종합 요약 ──────────────────────────────────────────────────────────────
     section("★ 종합 요약")
     p_price = price.get("current_price", "N/A")
@@ -1085,6 +1147,9 @@ def main() -> dict:
   🏛️  스마트머니:   {sm_icon} {inst.get('smart_money_trend','N/A')}  기관보유: {inst['institutional_pct']}
   🌍 매크로:       {ms:+d}/5  |  {macro['rate_environment']}
   📐 기술적분석:   {tech.get('action_icon','⬜')} {tech.get('action','N/A')}  RSI: {tech.get('rsi','N/A')}  추세: {tech.get('trend','N/A')}
+  🎯 애널리스트:   {analyst.get('recommendation','N/A')}  목표가 평균 ${analyst.get('target_mean','N/A')}  업사이드 {f"{analyst.get('upside_pct'):+.1f}%" if analyst.get('upside_pct') is not None else 'N/A'}
+  📅 다음 실적:    {earnings.get('next_earnings_date','N/A')}  어닝비트 {earnings.get('beat_rate','N/A')}
+  🏆 종합 판정:    {scorecard.get('verdict_icon','⬜')} {scorecard.get('verdict','N/A')}  ({scorecard.get('total_normalized',0):+.1f}/10)
     """)
 
     # JSON 저장
@@ -1326,8 +1391,72 @@ def send_telegram(results: dict):
             lines.append("\n현재 뚜렷한 신호 없음 (관망)")
 
         send("\n".join(lines))
+        time.sleep(0.5)
 
-    print("  [Telegram] 전송 완료 (총 7개 메시지)")
+    # ── MSG 8: 애널리스트 컨센서스 ───────────────────────────────────────────
+    analyst  = results.get("analyst", {})
+    total_a  = analyst.get("buy_count", 0) + analyst.get("hold_count", 0) + analyst.get("sell_count", 0)
+    upside   = analyst.get("upside_pct")
+    t_mean   = analyst.get("target_mean")
+    if t_mean:
+        buy_b  = "█" * analyst.get("buy_count", 0)
+        hold_b = "▒" * analyst.get("hold_count", 0)
+        sell_b = "░" * analyst.get("sell_count", 0)
+        upside_str = f"{upside:+.1f}%" if upside is not None else ""
+        lines = [
+            f"🎯 <b>애널리스트 컨센서스</b>\n",
+            f"의견: <b>{analyst.get('recommendation','N/A')}</b>  (분석가 {analyst.get('num_analysts',0)}명)",
+            f"[{buy_b}{hold_b}{sell_b}]",
+            f"매수 {analyst.get('buy_count',0)} / 보유 {analyst.get('hold_count',0)} / 매도 {analyst.get('sell_count',0)}",
+            f"\n목표주가 평균: <b>${t_mean}</b>  {upside_str} 업사이드",
+            f"최고 ${analyst.get('target_high','N/A')}  /  최저 ${analyst.get('target_low','N/A')}",
+        ]
+        send("\n".join(lines))
+        time.sleep(0.5)
+
+    # ── MSG 9: 실적 서프라이즈 ───────────────────────────────────────────────
+    earnings = results.get("earnings", {})
+    hist     = earnings.get("history", [])
+    if hist:
+        lines = [
+            f"📅 <b>실적 서프라이즈</b>  (Beat {earnings.get('beat_rate','N/A')})\n",
+            f"다음 실적 발표: <b>{earnings.get('next_earnings_date','N/A')}</b>\n",
+            "<pre>",
+            f"{'분기':<12} {'예상':>7} {'실제':>7} {'서프라이즈':>10}",
+            "─" * 40,
+        ]
+        for h in hist:
+            est = f"${h['eps_estimate']}" if h.get("eps_estimate") is not None else " N/A"
+            act = f"${h['eps_actual']}"   if h.get("eps_actual")   is not None else " N/A"
+            sur = h.get("surprise_pct")
+            tag = f"{sur:+.1f}% ✅" if sur and sur > 0 else f"{sur:+.1f}% ❌" if sur else "N/A"
+            lines.append(f"{h['date']:<12} {est:>7} {act:>7} {tag:>10}")
+        lines.append("</pre>")
+        send("\n".join(lines))
+        time.sleep(0.5)
+
+    # ── MSG 10: 종합 스코어카드 ──────────────────────────────────────────────
+    sc = results.get("scorecard", {})
+    if sc:
+        norm  = sc.get("total_normalized", 0)
+        icon  = sc.get("verdict_icon", "🟡")
+        verd  = sc.get("verdict", "N/A")
+        lines = [
+            f"🏆 <b>종합 Bull/Bear 스코어카드</b>\n",
+            f"{icon} <b>{verd}</b>  ({norm:+.1f} / 10)\n",
+            "<pre>",
+            f"{'항목':<16} {'점수':>5}",
+            "─" * 24,
+        ]
+        for name, score_val in sc.get("scores", {}).items():
+            bar_s = ("+" * abs(score_val)) if score_val > 0 else ("-" * abs(score_val)) if score_val < 0 else "±"
+            lines.append(f"{name:<16} {score_val:>+5}  {bar_s}")
+        lines.append("─" * 24)
+        lines.append(f"{'합계':<16} {sc.get('total_raw',0):>+5}")
+        lines.append("</pre>")
+        send("\n".join(lines))
+
+    print("  [Telegram] 전송 완료 (총 10개 메시지)")
 
 
 if __name__ == "__main__":
