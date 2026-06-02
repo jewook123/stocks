@@ -691,6 +691,178 @@ def fetch_technical() -> dict:
     }
 
 
+# ── 10. 애널리스트 컨센서스 & 목표주가 ──────────────────────────────────────────
+def fetch_analyst() -> dict:
+    """yfinance로 애널리스트 투자의견과 목표주가를 가져옵니다."""
+    import yfinance as yf
+
+    stock = yf.Ticker(TARGET_TICKER)
+    info  = stock.info
+
+    cur         = info.get("currentPrice") or info.get("regularMarketPrice")
+    target_mean = info.get("targetMeanPrice")
+    target_high = info.get("targetHighPrice")
+    target_low  = info.get("targetLowPrice")
+    num_analysts= info.get("numberOfAnalystOpinions", 0)
+    rec_key     = info.get("recommendationKey", "")
+
+    upside = round((target_mean - cur) / cur * 100, 1) if target_mean and cur else None
+
+    rec_label = {
+        "strongBuy": "강력 매수", "buy": "매수",
+        "hold": "보유", "sell": "매도", "strongSell": "강력 매도",
+    }.get(rec_key, rec_key or "N/A")
+
+    buy_count = hold_count = sell_count = 0
+    try:
+        df = stock.recommendations_summary
+        if df is not None and not df.empty:
+            row = df.iloc[0]
+            buy_count  = int((row.get("strongBuy") or 0) + (row.get("buy") or 0))
+            hold_count = int(row.get("hold") or 0)
+            sell_count = int((row.get("strongSell") or 0) + (row.get("sell") or 0))
+    except Exception:
+        pass
+
+    return {
+        "recommendation": rec_label,
+        "num_analysts":   num_analysts,
+        "target_mean":    round(target_mean, 2) if target_mean else None,
+        "target_high":    round(target_high, 2) if target_high else None,
+        "target_low":     round(target_low,  2) if target_low  else None,
+        "upside_pct":     upside,
+        "buy_count":      buy_count,
+        "hold_count":     hold_count,
+        "sell_count":     sell_count,
+    }
+
+
+# ── 11. 실적 서프라이즈 히스토리 ──────────────────────────────────────────────
+def fetch_earnings_surprise() -> dict:
+    """yfinance로 최근 4분기 EPS 어닝 서프라이즈와 다음 실적 발표일을 가져옵니다."""
+    import yfinance as yf
+
+    stock = yf.Ticker(TARGET_TICKER)
+
+    # 다음 실적 발표일
+    next_date = None
+    try:
+        cal = stock.calendar
+        if isinstance(cal, dict):
+            dates = cal.get("Earnings Date") or cal.get("earningsDate") or []
+            if dates:
+                next_date = str(dates[0])[:10]
+        elif cal is not None and hasattr(cal, "columns"):
+            col = next((c for c in cal.columns if "Earnings" in str(c)), None)
+            if col:
+                next_date = str(cal[col].iloc[0])[:10]
+    except Exception:
+        pass
+
+    # EPS 서프라이즈 히스토리
+    history = []
+    try:
+        eh = stock.earnings_history
+        if eh is not None and not eh.empty:
+            for _, row in eh.head(4).iterrows():
+                est = row.get("epsEstimate")
+                act = row.get("epsActual")
+                sur = row.get("surprisePercent") or row.get("epsDifference")
+                qtr = str(row.get("quarter", ""))[:10]
+                history.append({
+                    "date":         qtr,
+                    "eps_estimate": round(float(est), 2) if est is not None else None,
+                    "eps_actual":   round(float(act), 2) if act is not None else None,
+                    "surprise_pct": round(float(sur) * 100, 1) if sur is not None else None,
+                })
+    except Exception:
+        pass
+
+    beats  = sum(1 for h in history if h.get("surprise_pct") is not None and h["surprise_pct"] > 0)
+    misses = sum(1 for h in history if h.get("surprise_pct") is not None and h["surprise_pct"] <= 0)
+
+    return {
+        "next_earnings_date": next_date,
+        "history":            history,
+        "beat_count":         beats,
+        "miss_count":         misses,
+        "beat_rate":          f"{beats}/{beats+misses}" if (beats + misses) else "N/A",
+    }
+
+
+# ── 12. 종합 Bull/Bear 스코어카드 ──────────────────────────────────────────────
+def calc_scorecard(results: dict) -> dict:
+    """각 섹션 결과를 점수화해 종합 Bull/Bear 판정을 내립니다."""
+    scores = {}
+
+    # 뉴스 감성 (-3 ~ +3)
+    raw_news = results.get("news", {}).get("sentiment_score", 0)
+    scores["📰 뉴스 감성"]   = max(-3, min(3, round(raw_news / 3.34)))
+
+    # 기술적 분석 (-3 ~ +3)
+    tech        = results.get("technical", {})
+    buy_sigs    = sum(1 for s in tech.get("signals", []) if s[0] == "buy")
+    sell_sigs   = sum(1 for s in tech.get("signals", []) if s[0] == "sell")
+    rsi_val     = tech.get("rsi", 50)
+    tech_score  = buy_sigs - sell_sigs
+    if rsi_val < 30:   tech_score += 1
+    elif rsi_val > 70: tech_score -= 1
+    scores["📐 기술적 분석"] = max(-3, min(3, tech_score))
+
+    # 매크로 (-2 ~ +2)
+    scores["🌍 매크로"]      = max(-2, min(2, results.get("macro", {}).get("macro_score", 0)))
+
+    # 공매도/옵션 (-2 ~ +2)
+    opts       = results.get("options_short", {})
+    sq_risk    = opts.get("short_squeeze_risk", "N/A")
+    sh_score   = {"High": -1, "Medium": 0, "Low": 1}.get(sq_risk, 0)
+    pc         = opts.get("put_call_ratio", "N/A")
+    if isinstance(pc, (int, float)):
+        sh_score += -1 if pc > 1.2 else 1 if pc < 0.7 else 0
+    scores["📉 공매도/옵션"] = max(-2, min(2, sh_score))
+
+    # 스마트머니 (-2 ~ +2)
+    sm = results.get("institutional", {}).get("smart_money_trend", "Neutral")
+    scores["🏛️ 스마트머니"]  = {"Accumulating": 2, "Neutral": 0, "Distributing": -2}.get(sm, 0)
+
+    # 펀더멘탈 (-2 ~ +2)
+    rev_g = results.get("fundamentals", {}).get("revenue_growth", "N/A")
+    try:
+        g = float(str(rev_g).strip("%")) / (1 if "%" in str(rev_g) else 100)
+        fund_score = 2 if g > 0.2 else 1 if g > 0 else -1 if g > -0.1 else -2
+    except Exception:
+        fund_score = 0
+    scores["📊 펀더멘탈"]    = fund_score
+
+    # 애널리스트 (-2 ~ +2)
+    analyst = results.get("analyst", {})
+    upside  = analyst.get("upside_pct")
+    rec     = analyst.get("recommendation", "")
+    a_score = (2 if upside and upside > 30 else 1 if upside and upside > 10
+               else -1 if upside and upside < -10 else 0)
+    if "강력 매수" in rec: a_score = min(2, a_score + 1)
+    elif "매도" in rec:   a_score = max(-2, a_score - 1)
+    scores["🎯 애널리스트"]  = a_score
+
+    total      = sum(scores.values())
+    max_abs    = 17  # 3+3+2+2+2+2+2
+    normalized = round(total / max_abs * 10, 1)
+
+    if   normalized >=  6: verdict, icon = "강한 매수", "🟢🟢"
+    elif normalized >=  2: verdict, icon = "매수 우세", "🟢"
+    elif normalized <= -6: verdict, icon = "강한 매도", "🔴🔴"
+    elif normalized <= -2: verdict, icon = "매도 우세", "🔴"
+    else:                  verdict, icon = "중립 (관망)", "🟡"
+
+    return {
+        "scores":           scores,
+        "total_raw":        total,
+        "total_normalized": normalized,
+        "verdict":          verdict,
+        "verdict_icon":     icon,
+    }
+
+
 # ── 출력 헬퍼 ──────────────────────────────────────────────────────────────────
 def sep(char="=", w=72):  print(char * w)
 def section(t):           print(f"\n{'='*72}\n  {t}\n{'='*72}")
